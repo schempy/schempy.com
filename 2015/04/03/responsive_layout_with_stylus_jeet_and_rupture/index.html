@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
+  
+  <title>Responsive Layouts With Stylus Jeet And Rupture | Recent Blog Posts By Brian Schemp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Develop for mobile first is a common theme you hear today. I use three libraries for preprocessing css to help with this process. They make it easy to get a responsive site running fairly quick.
+
+Styl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Responsive Layouts With Stylus Jeet And Rupture">
+<meta property="og:url" content="http://www.schempy.com/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/index.html">
+<meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:description" content="Develop for mobile first is a common theme you hear today. I use three libraries for preprocessing css to help with this process. They make it easy to get a responsive site running fairly quick.
+
+Styl">
+<meta property="og:image" content="https://raw.githubusercontent.com/schempy/responsive-layout/master/static/images/responsive-layout-horizontal.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/schempy/responsive-layout/master/static/images/responsive-layout-vertical.png">
+<meta property="og:updated_time" content="2015-05-20T20:21:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Responsive Layouts With Stylus Jeet And Rupture">
+<meta name="twitter:description" content="Develop for mobile first is a common theme you hear today. I use three libraries for preprocessing css to help with this process. They make it easy to get a responsive site running fairly quick.
+
+Styl">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css" type="text/css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59930748-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives/">Archives</a>
+        
+          <a class="main-nav-link" href="https://www.github.com/schempy">GitHub</a>
+        
+          <a class="main-nav-link" href="https://www.twitter.com/schempy">Twitter</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-responsive_layout_with_stylus_jeet_and_rupture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/" class="article-date">
+  <time datetime="2015-04-03T00:00:00.000Z" itemprop="datePublished">Apr 3rd 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Responsive Layouts With Stylus Jeet And Rupture
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Develop for mobile first is a common theme you hear today. I use three libraries for preprocessing css to help with this process. They make it easy to get a responsive site running fairly quick.</p>
+<ol>
+<li><a href="https://github.com/stylus/stylus" target="_blank" rel="external">Stylus</a> - CSS pre-processor.</li>
+<li><a href="https://github.com/mojotech/jeet" target="_blank" rel="external">Jeet</a> - Flexible ratio grid system for stylus. </li>
+<li><a href="https://github.com/jenius/rupture" target="_blank" rel="external">Rupture</a> - Simple media queries in stylus.</li>
+</ol>
+<a id="more"></a>
+<p>Below is a sample design I’ll be working with. There is a sidebar and a content area. I’ve decided to make a breakpoint at 600 pixels. Once the browser screen size is below 600 pixels the layout will change.</p>
+<p><img src="https://raw.githubusercontent.com/schempy/responsive-layout/master/static/images/responsive-layout-horizontal.png" alt="alt text"></p>
+<p>This is how the screen will display once the size is below 600 pixels. I’ve stacked the sidebar and content area. I also display the links horizontally instead of vertically.</p>
+<p><img src="https://raw.githubusercontent.com/schempy/responsive-layout/master/static/images/responsive-layout-vertical.png" alt="alt text"></p>
+<p>I’ll use the following stylus code to accomplish the above:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">import</span> <span class="string">'jeet'</span></span><br><span class="line"></span><br><span class="line">#root</span><br><span class="line">	<span class="function">center</span>(<span class="number">960px</span>)</span><br><span class="line">	.sidebar</span><br><span class="line">		<span class="function">col</span>(<span class="number">1</span>/<span class="number">3</span>)</span><br><span class="line">		background-color: #FFFFCC</span><br><span class="line">		</span><br><span class="line">		ul</span><br><span class="line">			list-style: none</span><br><span class="line">			li</span><br><span class="line">				display: none</span><br><span class="line">				margin: <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="number">0</span></span><br><span class="line">				</span><br><span class="line">		+<span class="function">below</span>(<span class="number">600px</span>)</span><br><span class="line">			<span class="function">stack</span>()</span><br><span class="line">			ul</span><br><span class="line">				<span class="function">center</span>(<span class="number">200px</span>)</span><br><span class="line">				li</span><br><span class="line">					display: inline</span><br><span class="line">					margin: <span class="number">0</span> <span class="number">15px</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line">	.main</span><br><span class="line">		<span class="function">col</span>(<span class="number">2</span>/<span class="number">3</span>)</span><br><span class="line">		background-color: #CCCCCC</span><br><span class="line">		+<span class="function">below</span>(<span class="number">600px</span>)</span><br><span class="line">			<span class="function">stack</span>()</span></span><br></pre></td></tr></table></figure>
+<p>To summarize what I’m doing:</p>
+<ul>
+<li>Center the document within 960 pixels.</li>
+<li>Set the <strong>.sidebar</strong> element to take up 1/3 of the screen size.</li>
+<li>Each <strong>.sidebar &gt; ul &gt; li</strong> will be displayed vertically and have a bottom margin of 15 pixels.</li>
+<li>Set the <strong>.main</strong> element to take up 2/3 of the screen size.</li>
+</ul>
+<p>When the screen size is below 600 pixles:</p>
+<ul>
+<li>Stack the <strong>.sidebar</strong> and <strong>.main</strong> elements vertically.</li>
+<li>Center the <strong>.sidebar &gt; ul</strong> within 200 pixels.</li>
+<li>Each <strong>.sidebar &gt; ul &gt; li</strong> will be displayed horizontally and have a right margin of 15 pixels.</li>
+</ul>
+<p>For under 30 lines of code I accomplished a lot and set a good foundation for a responsive design. I’ll need to create a build step for the above code to be processed into css. That’s pretty easy too:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ stylus -u jeet -u rupture css/*.styl --out static/bundle.css</span><br></pre></td></tr></table></figure>
+<p>That one liner takes the stylus file and creates a css file, bundle.css, in the directory static. I can then include the bundle.css in my html.</p>
+<p>I created a github repo, <a href="https://github.com/schempy/responsive-layout" target="_blank" rel="external">responsive-layout</a> for this example.</p>
+<p>Questions? Comments? Tweet me <a href="https://www.twitter.com/schempy" target="_blank" rel="external">@schempy</a> or email <a href="mailto:schempysays@gmail.com" target="_blank" rel="external">schempysays@gmail.com</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.schempy.com/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/" data-id="ciaip0pqq00047xm6u3j5481e" class="article-share-link">Tweet This</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/05/20/source_maps_with_nodejs/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Source Maps With Node.js
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/03/24/async_tasks_with_es6_generators/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Async Tasks With ES6 Generators</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/08/25/docker_nginx_nodejs/">Nginx and Node.js with Docker</a>
+          </li>
+        
+          <li>
+            <a href="/2015/06/04/react_with_react_engine/">React with react-engine</a>
+          </li>
+        
+          <li>
+            <a href="/2015/05/20/source_maps_with_nodejs/">Source Maps With Node.js</a>
+          </li>
+        
+          <li>
+            <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/">Responsive Layouts With Stylus Jeet And Rupture</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/24/async_tasks_with_es6_generators/">Async Tasks With ES6 Generators</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Schempy<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/script-min.js" type="text/javascript"></script>
+  </div>
+</body>
+</html>
