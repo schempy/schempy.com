@@ -61,6 +61,46 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-simple_async_with_rxjs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/14/simple_async_with_rxjs/" class="article-date">
+  <time datetime="2015-10-14T00:00:00.000Z" itemprop="datePublished">Oct 14th 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/14/simple_async_with_rxjs/">Simple Async With RxJS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I had a previous project that involved a lot of asynchronous javascript code. I wasn’t entirely pleased with the result but it worked. “I wish things could be a little simpler.” I kept saying to myself. The part of the application in question was a piece that grabbed data from a API call returning xml. That data had to be parsed and then inserted into a database. I used <a href="https://github.com/substack/hyperquest">hyperquest</a> to make the API call, <a href="https://github.com/assistunion/xml-stream">xml-stream</a> to parse the xml response and <a href="https://github.com/sequelize/sequelize">sequelize</a> for the database logic. </p>
+<h3 id="The_Problem">The Problem</h3><p><a href="https://github.com/assistunion/xml-stream">xml-stream</a> emits events while parsing and <a href="https://github.com/sequelize/sequelize">sequelize</a> uses promises during it’s querying. Having that work together and be readable/maintainable was a challenge.</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/10/14/simple_async_with_rxjs/">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
     <article id="post-docker_nodejs_using_host_volumes" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/09/17/docker_nodejs_using_host_volumes/" class="article-date">
@@ -221,50 +261,6 @@ ga('send', 'pageview');
 </article>
 
   
-    <article id="post-responsive_layout_with_stylus_jeet_and_rupture" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/" class="article-date">
-  <time datetime="2015-04-03T00:00:00.000Z" itemprop="datePublished">Apr 3rd 2015</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/">Responsive Layouts With Stylus Jeet And Rupture</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Develop for mobile first is a common theme you hear today. I use three libraries for preprocessing css to help with this process. They make it easy to get a responsive site running fairly quick.</p>
-<ol>
-<li><a href="https://github.com/stylus/stylus">Stylus</a> - CSS pre-processor.</li>
-<li><a href="https://github.com/mojotech/jeet">Jeet</a> - Flexible ratio grid system for stylus. </li>
-<li><a href="https://github.com/jenius/rupture">Rupture</a> - Simple media queries in stylus.</li>
-</ol>
-        
-          <p class="article-more-link">
-            <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -284,7 +280,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -294,6 +290,10 @@ ga('send', 'pageview');
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/10/14/simple_async_with_rxjs/">Simple Async With RxJS</a>
+          </li>
         
           <li>
             <a href="/2015/09/17/docker_nodejs_using_host_volumes/">Node.js and Docker Using Host Volumes</a>
@@ -309,10 +309,6 @@ ga('send', 'pageview');
         
           <li>
             <a href="/2015/05/20/source_maps_with_nodejs/">Source Maps With Node.js</a>
-          </li>
-        
-          <li>
-            <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/">Responsive Layouts With Stylus Jeet And Rupture</a>
           </li>
         
       </ul>
