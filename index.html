@@ -61,6 +61,48 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-angular2_webpack_typescript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/19/angular2_webpack_typescript/" class="article-date">
+  <time datetime="2016-01-19T00:00:00.000Z" itemprop="datePublished">Jan 19th 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/19/angular2_webpack_typescript/">Angular2 With Typescript And Webpack</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’m just starting to get into <a href="https://www.npmjs.com/package/angular2">angular2</a> with <a href="https://www.npmjs.com/package/typescript">TypeScript</a>. I decided to give the <a href="https://angular.io/docs/ts/latest/quickstart.html">angular2 quickstart application</a> a try. At first glance I wanted to use <a href="https://www.npmjs.com/package/webpack">webpack</a> instead of <a href="https://www.npmjs.com/package/systemjs">systemjs</a> for module loading.</p>
+<p>To begin here is my package.json file:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"angular2-typescript-webpack"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"description"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack"</span>,</span><br><span class="line">    <span class="string">"start"</span>: <span class="string">"webpack-dev-server"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="string">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"ts-loader"</span>: <span class="string">"^0.7.2"</span>,</span><br><span class="line">    <span class="string">"tsd"</span>: <span class="string">"^0.6.5"</span>,</span><br><span class="line">    <span class="string">"typescript"</span>: <span class="string">"^1.7.5"</span>,</span><br><span class="line">    <span class="string">"webpack"</span>: <span class="string">"^1.12.11"</span>,</span><br><span class="line">    <span class="string">"webpack-dev-server"</span>: <span class="string">"^1.14.1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"angular2"</span>: <span class="string">"^2.0.0-beta.1"</span>,</span><br><span class="line">    <span class="string">"es6-promise"</span>: <span class="string">"^3.0.2"</span>,</span><br><span class="line">    <span class="string">"es6-shim"</span>: <span class="string">"^0.33.13"</span>,</span><br><span class="line">    <span class="string">"reflect-metadata"</span>: <span class="string">"^0.1.2"</span>,</span><br><span class="line">    <span class="string">"rxjs"</span>: <span class="string">"^5.0.0-beta.0"</span>,</span><br><span class="line">    <span class="string">"zone.js"</span>: <span class="string">"^0.5.10"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>I have <a href="https://www.npmjs.com/package/typescript">typescript</a> and <a href="https://www.npmjs.com/package/tsd">tsd</a> installed globally <strong>npm install typescript tsd -g</strong> but included them in the devDependencies section just in case some people don’t want to install those globally. You can run <strong>tsd init</strong> then <strong>tsd query angular2 –action install</strong> to have angular2 TypeScript definition files.</p>
+<p>I included <a href="https://www.npmjs.com/package/webpack">webpack</a> and <a href="https://www.npmjs.com/package/webpack-dev-server">webpack-dev-server</a>. There are two <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a>, build and start, that use webpack and webpack-dev-server respectively.</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/01/19/angular2_webpack_typescript/">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
     <article id="post-asp_net_dropdownlist_control_datasource" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/11/24/asp_net_dropdownlist_control_datasource/" class="article-date">
@@ -222,46 +264,6 @@ ga('send', 'pageview');
 </article>
 
   
-    <article id="post-react_with_react_engine" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/06/04/react_with_react_engine/" class="article-date">
-  <time datetime="2015-06-04T00:00:00.000Z" itemprop="datePublished">Jun 4th 2015</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/04/react_with_react_engine/">React with react-engine</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Previously I wrote an article about <a href="http://schempy.com/2015/02/16/reactjs_flux_and_routing_for_seo/">rendering react server side with seo</a>. It was an experiment that worked but needed improvement. Lately I’ve been using <a href="https://github.com/paypal/react-engine">react-engine</a> to render react views client and server side. It’s a rendering engine for <a href="https://github.com/strongloop/express">express</a> that uses <a href="https://github.com/rackt/react-router">react-router</a>.</p>
-<p>I wanted to use the same react components in my previous example and modify as little as possible.<br>The demo will display a html select element with a list of categories. Once a category is selected a list of products, within that category, will be displayed. The select element change will fire-off an api call to get the products.</p>
-        
-          <p class="article-more-link">
-            <a href="/2015/06/04/react_with_react_engine/">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -281,7 +283,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -291,6 +293,10 @@ ga('send', 'pageview');
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/01/19/angular2_webpack_typescript/">Angular2 With Typescript And Webpack</a>
+          </li>
         
           <li>
             <a href="/2015/11/24/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
@@ -308,10 +314,6 @@ ga('send', 'pageview');
             <a href="/2015/08/25/docker_nginx_nodejs/">Nginx and Node.js with Docker</a>
           </li>
         
-          <li>
-            <a href="/2015/06/04/react_with_react_engine/">React with react-engine</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -324,7 +326,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2015 Schempy<br>
+      &copy; 2016 Schempy<br>
     </div>
   </div>
 </footer>
