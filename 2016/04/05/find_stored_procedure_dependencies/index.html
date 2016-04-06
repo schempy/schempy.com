@@ -4,17 +4,21 @@
   <meta charset="utf-8">
   <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
   
-  <title>Archives: 2015/3 | Recent Blog Posts By Brian Schemp</title>
+  <title>Find Stored Procedure Dependencies | Recent Blog Posts By Brian Schemp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Recent Blog Posts By Brian Schemp">
-<meta property="og:url" content="http://www.schempy.com/archives/2015/03/index.html">
+  <meta name="description" content="Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:
+123456use MY_DBSELECT ROUTINE_NAMEFROM INFORMATION_SCHEM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Find Stored Procedure Dependencies">
+<meta property="og:url" content="http://www.schempy.com/2016/04/05/find_stored_procedure_dependencies/index.html">
 <meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
-<meta property="og:description">
+<meta property="og:description" content="Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:
+123456use MY_DBSELECT ROUTINE_NAMEFROM INFORMATION_SCHEM">
+<meta property="og:updated_time" content="2016-04-06T00:05:47.600Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Recent Blog Posts By Brian Schemp">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Find Stored Procedure Dependencies">
+<meta name="twitter:description" content="Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:
+123456use MY_DBSELECT ROUTINE_NAMEFROM INFORMATION_SCHEM">
   
   
     <link rel="icon" href="/favicon.png">
@@ -59,77 +63,55 @@ ga('send', 'pageview');
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/03/24/async_tasks_with_es6_generators/" class="archive-article-date">
-  <time datetime="2015-03-24T00:00:00.000Z" itemprop="datePublished">Mar 24</time>
+        <section id="main"><article id="post-find_stored_procedure_dependencies" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/05/find_stored_procedure_dependencies/" class="article-date">
+  <time datetime="2016-04-05T00:00:00.000Z" itemprop="datePublished">Apr 5th 2016</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/03/24/async_tasks_with_es6_generators/">Async Tasks With ES6 Generators</a>
+    <h1 class="article-title" itemprop="name">
+      Find Stored Procedure Dependencies
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/03/11/streaming_file_uploads_with_nodejs/" class="archive-article-date">
-  <time datetime="2015-03-11T00:00:00.000Z" itemprop="datePublished">Mar 11</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/03/11/streaming_file_uploads_with_nodejs/">Streaming File Uploads With Node.js</a>
-    </h1>
-  
+        <p>Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">use</span> MY_DB</span><br><span class="line"></span><br><span class="line">SELECT ROUTINE_NAME</span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.ROUTINES</span><br><span class="line"><span class="keyword">WHERE</span> ROUTINE_DEFINITION <span class="keyword">LIKE</span> <span class="string">'%myStoredProcedure%'</span></span><br><span class="line"><span class="keyword">AND</span> ROUTINE_TYPE=<span class="string">'PROCEDURE'</span></span></span><br></pre></td></tr></table></figure>
+<p>This query looks through all the stored procedure definitions, in  the  <strong>MY_DB</strong> database, for the words <code>myStoredProcedure</code>. The results will display all the stored procedures including the <strong>myStoredProcedure</strong>.</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/03/02/where_to_have_api_calls_in_react_flux/" class="archive-article-date">
-  <time datetime="2015-03-02T00:00:00.000Z" itemprop="datePublished">Mar 2</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/03/02/where_to_have_api_calls_in_react_flux/">Where To Have API Calls In React Flux</a>
-    </h1>
-  
-
-    </header>
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.schempy.com/2016/04/05/find_stored_procedure_dependencies/" data-id="cimo3chgt000013pouigio6vw" class="article-share-link">Tweet This</a>
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/01/19/angular2_webpack_typescript/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular2 With Typescript And Webpack</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 </section>
         
           <aside id="sidebar">
