@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://www.schempy.com/2015/05/20/source_maps_with_nodejs/index.html">
 <meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
 <meta property="og:description" content="Using source maps when generating ES5 code from ES6 has proved to be very helpful in my development. When debugging I want errors to reference the source files not the generated files. I use babel to">
-<meta property="og:updated_time" content="2015-05-21T02:52:16.000Z">
+<meta property="og:updated_time" content="2016-08-07T02:45:00.929Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Source Maps With Node.js">
 <meta name="twitter:description" content="Using source maps when generating ES5 code from ES6 has proved to be very helpful in my development. When debugging I want errors to reference the source files not the generated files. I use babel to">
@@ -21,7 +21,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style-min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -84,16 +84,15 @@ ga('send', 'pageview');
       
         <p>Using source maps when generating ES5 code from ES6 has proved to be very helpful in my development. When debugging I want errors to reference the source files not the generated files. I use <a href="https://github.com/babel/babel" target="_blank" rel="external">babel</a> to generate ES5 code from ES6 and source-map files. I also use <a href="https://github.com/evanw/node-source-map-support" target="_blank" rel="external">source-map-support</a> for referencing stack traces in the source file.</p>
 <p>For this example I’ll create a simple ES6 class that extends EventEmitter and will emit a success event. I’ll purposely misspell the word emit and check if the error references the source file.</p>
-<a id="more"></a>
 <p>My ES6 files will be in a directory named <strong>lib</strong>. The generated ES5 and source map files will be in a directory named <strong>dist</strong>. </p>
 <p>In my ES6 class I need to include the <a href="https://github.com/evanw/node-source-map-support" target="_blank" rel="external">source-map-support</a> library and call its install() in the construtor.<br>Here is the ES6 class:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; EventEmitter &#125; <span class="keyword">from</span> <span class="string">'events'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; install &#125; <span class="keyword">from</span> <span class="string">'source-map-support'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">EmitStuff</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;</span><br><span class="line">	constructor() &#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		install(); <span class="comment">// Required for source-map-support</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	tryMe() &#123;</span><br><span class="line">		<span class="keyword">this</span>.emitt(<span class="string">'success'</span>, <span class="string">'It works!'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> EmitStuff;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; EventEmitter &#125; <span class="keyword">from</span> <span class="string">'events'</span>;</div><div class="line"><span class="keyword">import</span> &#123; install &#125; <span class="keyword">from</span> <span class="string">'source-map-support'</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">EmitStuff</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>() &#123;</div><div class="line">		<span class="keyword">super</span>();</div><div class="line">		install(); <span class="comment">// Required for source-map-support</span></div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	tryMe() &#123;</div><div class="line">		<span class="keyword">this</span>.emitt(<span class="string">'success'</span>, <span class="string">'It works!'</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> EmitStuff;</div></pre></td></tr></table></figure>
 <p>Here is the entry point that uses the <strong>EmitStuff</strong> class I created. It uses the ES5 generated file.</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> EmitStuff = <span class="built_in">require</span>(<span class="string">'./dist/emit-stuff'</span>);</span><br><span class="line"><span class="keyword">var</span> emitStuff = <span class="keyword">new</span> EmitStuff();</span><br><span class="line"></span><br><span class="line">emitStuff.on(<span class="string">'success'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(response);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">emitStuff.tryMe();</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EmitStuff = <span class="built_in">require</span>(<span class="string">'./dist/emit-stuff'</span>);</div><div class="line"><span class="keyword">var</span> emitStuff = <span class="keyword">new</span> EmitStuff();</div><div class="line"></div><div class="line">emitStuff.on(<span class="string">'success'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(response);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">emitStuff.tryMe();</div></pre></td></tr></table></figure>
 <p>Here is the build step that will generate ES5 code and source-map files into the <strong>dist</strong> directory from the ES6 code in the <strong>lib</strong> directory.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">babel out-dir dist lib --source-maps</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">babel out-dir dist lib --source-maps</div></pre></td></tr></table></figure>
 <p>Now when I run my entry point file I get the following:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node index.js</span><br><span class="line"></span><br><span class="line">/emitstuff/lib/emit-stuff.js:<span class="number">11</span></span><br><span class="line">		this.emitt(<span class="string">'success'</span>, <span class="string">'It worked!'</span>);</span><br><span class="line">       ^</span><br><span class="line">TypeError: undefined is not a <span class="keyword">function</span></span><br><span class="line">    at EmitStuff.tryMe (/emitstuff/lib/emit-stuff.js:<span class="number">11</span>:<span class="number">8</span>)</span><br><span class="line">	....</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">node index.js</div><div class="line"></div><div class="line">/emitstuff/lib/emit-stuff.js:11</div><div class="line">		this.emitt(<span class="string">'success'</span>, <span class="string">'It worked!'</span>);</div><div class="line">       ^</div><div class="line">TypeError: undefined is not a <span class="keyword">function</span></div><div class="line">    at EmitStuff.tryMe (/emitstuff/lib/emit-stuff.js:11:8)</div><div class="line">	....</div></pre></td></tr></table></figure>
 <p>The error points to the source file!</p>
 <p>I created a github repo, <a href="https://github.com/schempy/source-maps-with-node" target="_blank" rel="external">source-maps-with-node</a> for this example.</p>
 
@@ -101,7 +100,7 @@ ga('send', 'pageview');
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://www.schempy.com/2015/05/20/source_maps_with_nodejs/" data-id="cimslp0kw0003flpo9v5ujjq5" class="article-share-link">Tweet This</a>
+        <a data-url="http://www.schempy.com/2015/05/20/source_maps_with_nodejs/" data-id="ciaip0pqj00037xm6qi8eaa2o" class="article-share-link">Tweet This</a>
       
       
     </footer>
@@ -114,7 +113,7 @@ ga('send', 'pageview');
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          React with react-engine
+          React With react-engine
         
       </div>
     </a>
@@ -167,7 +166,7 @@ ga('send', 'pageview');
           </li>
         
           <li>
-            <a href="/2015/11/24/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
+            <a href="/2015/11/13/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
           </li>
         
           <li>
@@ -193,7 +192,7 @@ ga('send', 'pageview');
     </div>
     
 
-<script src="/js/script-min.js" type="text/javascript"></script>
+<script src="/js/script-min.js"></script>
   </div>
 </body>
 </html>

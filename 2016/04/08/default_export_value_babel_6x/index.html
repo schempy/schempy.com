@@ -16,7 +16,7 @@ Using Babel">
 <meta property="og:description" content="In ECMAScript 6 creating a module whose default export is a class would look like the following: 
 12345export default class MyClass &amp;#123;	getMessage() &amp;#123;		return &apos;hello&apos;;	&amp;#125;&amp;#125;
 Using Babel">
-<meta property="og:updated_time" content="2016-04-09T03:32:40.382Z">
+<meta property="og:updated_time" content="2016-08-07T02:45:00.937Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Default export value in Babel 6.x">
 <meta name="twitter:description" content="In ECMAScript 6 creating a module whose default export is a class would look like the following: 
@@ -27,7 +27,7 @@ Using Babel">
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style-min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -89,20 +89,20 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p>In ECMAScript 6 creating a module whose default export is a class would look like the following: </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">	getMessage() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">'hello'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</div><div class="line">	getMessage() &#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">'hello'</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Using Babel 6.x to transpile this would look like the following:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</span><br><span class="line">	value: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// More transpilation stuff goes here.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// This is the important line!</span></span><br><span class="line">exports.default = MyClass;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</div><div class="line">	value: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// More transpilation stuff goes here.</span></div><div class="line"></div><div class="line"><span class="comment">// This is the important line!</span></div><div class="line">exports.default = MyClass;</div></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>If I wanted to require and use this module, in node, I would do the following:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> MyClass = <span class="built_in">require</span>(<span class="string">'./MyClass'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myClass = <span class="keyword">new</span> MyClass();</span><br><span class="line"><span class="built_in">console</span>.log(myClass.getMessage()); <span class="comment">// Should print out `hello`</span></span><br></pre></td></tr></table></figure></p>
-<p>Running that would produce an error:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">TypeError</span>: MyClass is not a <span class="function"><span class="keyword">function</span></span></span><br></pre></td></tr></table></figure></p>
-<p> This stummped me for a bit until I viewed the transpiled file and noticed the <strong>exports</strong> statement.<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exports.default = MyClass;</span><br></pre></td></tr></table></figure></p>
-<p>In order to require and use this module, in node, correctly I would do:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> MyClass = <span class="built_in">require</span>(<span class="string">'./MyClass'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myClass = <span class="keyword">new</span> MyClass.default();</span><br><span class="line"><span class="built_in">console</span>.log(myClass.getMessage()); <span class="comment">// Will print out `hello`</span></span><br></pre></td></tr></table></figure></p>
+<p>If I wanted to require and use this module, in node, I would do the following:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> MyClass = <span class="built_in">require</span>(<span class="string">'./MyClass'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> myClass = <span class="keyword">new</span> MyClass();</div><div class="line"><span class="built_in">console</span>.log(myClass.getMessage()); <span class="comment">// Should print out `hello`</span></div></pre></td></tr></table></figure></p>
+<p>Running that would produce an error:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">TypeError</span>: MyClass is not a <span class="function"><span class="keyword">function</span></span></div></pre></td></tr></table></figure></p>
+<p> This stummped me for a bit until I viewed the transpiled file and noticed the <strong>exports</strong> statement.<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">exports.default = MyClass;</div></pre></td></tr></table></figure></p>
+<p>In order to require and use this module, in node, correctly I would do:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> MyClass = <span class="built_in">require</span>(<span class="string">'./MyClass'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> myClass = <span class="keyword">new</span> MyClass.default();</div><div class="line"><span class="built_in">console</span>.log(myClass.getMessage()); <span class="comment">// Will print out `hello`</span></div></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://www.schempy.com/2016/04/08/default_export_value_babel_6x/" data-id="cimslp0me000bflpoi7duqe2t" class="article-share-link">Tweet This</a>
+        <a data-url="http://www.schempy.com/2016/04/08/default_export_value_babel_6x/" data-id="cirk0bsc5000283mkl1wj497m" class="article-share-link">Tweet This</a>
       
       
     </footer>
@@ -159,7 +159,7 @@ ga('send', 'pageview');
           </li>
         
           <li>
-            <a href="/2015/11/24/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
+            <a href="/2015/11/13/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
           </li>
         
           <li>
@@ -185,7 +185,7 @@ ga('send', 'pageview');
     </div>
     
 
-<script src="/js/script-min.js" type="text/javascript"></script>
+<script src="/js/script-min.js"></script>
   </div>
 </body>
 </html>

@@ -9,10 +9,10 @@
   <meta name="description" content="I’m fairly new to .NET and I’m finding it a challenge locating solutions for some problems I was having. I decided to start writing down the solutions I found or created. There might be better ways to">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Asp.net Dropdownlist Control Datasource Expression">
-<meta property="og:url" content="http://www.schempy.com/2015/11/24/asp_net_dropdownlist_control_datasource/index.html">
+<meta property="og:url" content="http://www.schempy.com/2015/11/13/asp_net_dropdownlist_control_datasource/index.html">
 <meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
 <meta property="og:description" content="I’m fairly new to .NET and I’m finding it a challenge locating solutions for some problems I was having. I decided to start writing down the solutions I found or created. There might be better ways to">
-<meta property="og:updated_time" content="2015-11-25T01:46:51.865Z">
+<meta property="og:updated_time" content="2016-08-07T02:45:00.937Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Asp.net Dropdownlist Control Datasource Expression">
 <meta name="twitter:description" content="I’m fairly new to .NET and I’m finding it a challenge locating solutions for some problems I was having. I decided to start writing down the solutions I found or created. There might be better ways to">
@@ -21,7 +21,7 @@
     <link rel="icon" href="/favicon.png">
   
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style-min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -62,8 +62,8 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main"><article id="post-asp_net_dropdownlist_control_datasource" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/11/24/asp_net_dropdownlist_control_datasource/" class="article-date">
-  <time datetime="2015-11-24T00:00:00.000Z" itemprop="datePublished">Nov 24th 2015</time>
+    <a href="/2015/11/13/asp_net_dropdownlist_control_datasource/" class="article-date">
+  <time datetime="2015-11-13T00:00:00.000Z" itemprop="datePublished">Nov 13th 2015</time>
 </a>
     
   </div>
@@ -84,19 +84,19 @@ ga('send', 'pageview');
       
         <p>I’m fairly new to .NET and I’m finding it a challenge locating solutions for some problems I was having. I decided to start writing down the solutions I found or created. There might be better ways to solve the problems. If you find a better way please let me know.</p>
 <p>Now on the problem. To start off the application is written in VB.NET 2.0. There is a form with a asp dropdown control that I needed to set the datasource. This dropdown control lives inside a  asp repeater control. I wanted to set the datasource inside an expression like the following:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">asp:DropDownList</span> <span class="attribute">runat</span>=<span class="value">"server"</span> <span class="attribute">DataSource</span>=<span class="value">'&lt;%# CreateDataSource() #%&gt;'</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">asp:DropDownList</span> <span class="attr">runat</span>=<span class="string">"server"</span> <span class="attr">DataSource</span>=<span class="string">'&lt;%# CreateDataSource() #%&gt;'</span> /&gt;</span></div></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>The code behind would have a function that creates a DataTable and returns it to be used as the datasource. The DataTable would have two columns, MyText and MyValue, which would be used for the name and value for the dropdownlist control.</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Protected Function CreateDataSource() As DataTable</span><br><span class="line">&#123;</span><br><span class="line">	'Create table to store data for the DropDownList control </span><br><span class="line">	Dim dt As DataTable = New DataTable()</span><br><span class="line"></span><br><span class="line">	'Define the columns of the table</span><br><span class="line">	dt.Columns.Add(New DataColumn("MyText", GetType(String))</span><br><span class="line">	dt.Columns.Add(New DataColumn("MyValue", GetType(String))</span><br><span class="line"></span><br><span class="line">	'Add rows to the DataTable</span><br><span class="line"></span><br><span class="line">	Return dt</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Protected Function CreateDataSource() As DataTable</div><div class="line">&#123;</div><div class="line">	'Create table to store data for the DropDownList control </div><div class="line">	Dim dt As DataTable = New DataTable()</div><div class="line"></div><div class="line">	'Define the columns of the table</div><div class="line">	dt.Columns.Add(New DataColumn("MyText", GetType(String))</div><div class="line">	dt.Columns.Add(New DataColumn("MyValue", GetType(String))</div><div class="line"></div><div class="line">	'Add rows to the DataTable</div><div class="line"></div><div class="line">	Return dt</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>The issue was binding the name (what is visibly displayed) and value to be used in the dropdown control. I couldn’t do this in the function above becuase it’s job is to return a datasource and I didn’t have a reference to the dropdown control. There are events you can hook into for the dropdownlist control like <a href="https://msdn.microsoft.com/en-us/library/system.web.ui.control.init.aspx?cs-save-lang=1&amp;cs-lang=vb" target="_blank" rel="external">OnInit</a> where you can do this but I was hesitant becuase there didn’t seem to be a way to pass paramters. Finally I found you can bind the name and value within the markup!</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">asp:DropDownList</span></span><br><span class="line">	<span class="attribute">runat</span>=<span class="value">"server"</span></span><br><span class="line">	<span class="attribute">DataSource</span>=<span class="value">'&lt;%# CreateDataSource() #%&gt;'</span></span><br><span class="line">	<span class="attribute">DataTextField</span>=<span class="value">"MyText"</span></span><br><span class="line">	<span class="attribute">DataValueField</span>=<span class="value">"MyValue"</span></span><br><span class="line"> /&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">asp:DropDownList</span></span></div><div class="line">	<span class="attr">runat</span>=<span class="string">"server"</span></div><div class="line">	<span class="attr">DataSource</span>=<span class="string">'&lt;%# CreateDataSource() #%&gt;'</span></div><div class="line">	<span class="attr">DataTextField</span>=<span class="string">"MyText"</span></div><div class="line">	<span class="attr">DataValueField</span>=<span class="string">"MyValue"</span></div><div class="line"> /&gt;</div></pre></td></tr></table></figure>
 <p>This worked perfectly and I liked how I can set values within the markup of the control.</p>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://www.schempy.com/2015/11/24/asp_net_dropdownlist_control_datasource/" data-id="cimslp0ml000dflpoykbdca0h" class="article-share-link">Tweet This</a>
+        <a data-url="http://www.schempy.com/2015/11/13/asp_net_dropdownlist_control_datasource/" data-id="cirk0bsc2000183mk2kstkd5q" class="article-share-link">Tweet This</a>
       
       
     </footer>
@@ -162,7 +162,7 @@ ga('send', 'pageview');
           </li>
         
           <li>
-            <a href="/2015/11/24/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
+            <a href="/2015/11/13/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
           </li>
         
           <li>
@@ -188,7 +188,7 @@ ga('send', 'pageview');
     </div>
     
 
-<script src="/js/script-min.js" type="text/javascript"></script>
+<script src="/js/script-min.js"></script>
   </div>
 </body>
 </html>
