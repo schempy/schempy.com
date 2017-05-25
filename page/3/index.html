@@ -58,6 +58,70 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-responsive_layout_with_stylus_jeet_and_rupture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/" class="article-date">
+  <time datetime="2015-04-03T00:00:00.000Z" itemprop="datePublished">Apr 3rd 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/">Responsive Layouts With Stylus Jeet And Rupture</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Develop for mobile first is a common theme you hear today. I use three libraries for preprocessing css to help with this process. They make it easy to get a responsive site running fairly quick.</p>
+<ol>
+<li><a href="https://github.com/stylus/stylus" target="_blank" rel="external">Stylus</a> - CSS pre-processor.</li>
+<li><a href="https://github.com/mojotech/jeet" target="_blank" rel="external">Jeet</a> - Flexible ratio grid system for stylus. </li>
+<li><a href="https://github.com/jenius/rupture" target="_blank" rel="external">Rupture</a> - Simple media queries in stylus.</li>
+</ol>
+<p>Below is a sample design I’ll be working with. There is a sidebar and a content area. I’ve decided to make a breakpoint at 600 pixels. Once the browser screen size is below 600 pixels the layout will change.</p>
+<p><img src="https://raw.githubusercontent.com/schempy/responsive-layout/master/static/images/responsive-layout-horizontal.png" alt="alt text"></p>
+<p>This is how the screen will display once the size is below 600 pixels. I’ve stacked the sidebar and content area. I also display the links horizontally instead of vertically.</p>
+<p><img src="https://raw.githubusercontent.com/schempy/responsive-layout/master/static/images/responsive-layout-vertical.png" alt="alt text"></p>
+<p>I’ll use the following stylus code to accomplish the above:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">import</span> <span class="string">'jeet'</span></div><div class="line"></div><div class="line">#root</div><div class="line">	center(<span class="number">960px</span>)</div><div class="line">	.sidebar</div><div class="line">		col(<span class="number">1</span>/<span class="number">3</span>)</div><div class="line">		background-color: #FFFFCC</div><div class="line">		</div><div class="line">		ul</div><div class="line">			list-style: none</div><div class="line">			li</div><div class="line">				display: none</div><div class="line">				margin: <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="number">0</span></div><div class="line">				</div><div class="line">		+below(<span class="number">600px</span>)</div><div class="line">			stack()</div><div class="line">			ul</div><div class="line">				center(<span class="number">200px</span>)</div><div class="line">				li</div><div class="line">					display: inline</div><div class="line">					margin: <span class="number">0</span> <span class="number">15px</span> <span class="number">0</span> <span class="number">0</span></div><div class="line">	.main</div><div class="line">		col(<span class="number">2</span>/<span class="number">3</span>)</div><div class="line">		background-color: #CCCCCC</div><div class="line">		+below(<span class="number">600px</span>)</div><div class="line">			stack()</div></pre></td></tr></table></figure>
+<p>To summarize what I’m doing:</p>
+<ul>
+<li>Center the document within 960 pixels.</li>
+<li>Set the <strong>.sidebar</strong> element to take up 1/3 of the screen size.</li>
+<li>Each <strong>.sidebar &gt; ul &gt; li</strong> will be displayed vertically and have a bottom margin of 15 pixels.</li>
+<li>Set the <strong>.main</strong> element to take up 2/3 of the screen size.</li>
+</ul>
+<p>When the screen size is below 600 pixles:</p>
+<ul>
+<li>Stack the <strong>.sidebar</strong> and <strong>.main</strong> elements vertically.</li>
+<li>Center the <strong>.sidebar &gt; ul</strong> within 200 pixels.</li>
+<li>Each <strong>.sidebar &gt; ul &gt; li</strong> will be displayed horizontally and have a right margin of 15 pixels.</li>
+</ul>
+<p>For under 30 lines of code I accomplished a lot and set a good foundation for a responsive design. I’ll need to create a build step for the above code to be processed into css. That’s pretty easy too:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ stylus -u jeet -u rupture css/*.styl --out static/bundle.css</div></pre></td></tr></table></figure>
+<p>That one liner takes the stylus file and creates a css file, bundle.css, in the directory static. I can then include the bundle.css in my html.</p>
+<p>I created a github repo, <a href="https://github.com/schempy/responsive-layout" target="_blank" rel="external">responsive-layout</a> for this example.</p>
+<p>Questions? Comments? Tweet me <a href="https://www.twitter.com/schempy" target="_blank" rel="external">@schempy</a> or email <a href="mailto:schempysays@gmail.com" target="_blank" rel="external">schempysays@gmail.com</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
     <article id="post-es6-generator-async" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/03/24/es6-generator-async/" class="article-date">
@@ -268,7 +332,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -278,6 +342,10 @@ ga('send', 'pageview');
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
         
           <li>
             <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
@@ -295,10 +363,6 @@ ga('send', 'pageview');
             <a href="/2015/11/13/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
           </li>
         
-          <li>
-            <a href="/2015/10/14/simple_async_with_rxjs/">Simple Async With RxJS</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -311,7 +375,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Schempy<br>
+      &copy; 2017 Schempy<br>
     </div>
   </div>
 </footer>

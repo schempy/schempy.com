@@ -58,6 +58,50 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-aurelia_testing_with_jest" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/25/aurelia_testing_with_jest/" class="article-date">
+  <time datetime="2017-05-25T00:00:00.000Z" itemprop="datePublished">May 25th 2017</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Setting up <a href="https://facebook.github.io/jest/">Jest</a> to test your Aurelia components is pretty easy. The Aurelia team has a great collection of <a href="https://github.com/aurelia/skeleton-navigation">starter kits</a> that can get you setup using Aurelia. I started with the esnext-webpack version and stripped out some dependencies.</p>
+<p>The Aurelia team also has a <a href="https://github.com/aurelia/testing">aurelia-testing</a> which I haven’t used. For this example I only used <a href="https://facebook.github.io/jest/">Jest</a>.</p>
+<p>Full source code for this example <a href="https://github.com/schempy/aurelia-testing-jest">aurelia-testing-jest</a></p>
+<p>Let’s start!</p>
+<h3 id="Directory-structure"><a href="#Directory-structure" class="headerlink" title="Directory structure"></a>Directory structure</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">|__src</div><div class="line">|  |__app.js</div><div class="line">|  |__app.html</div><div class="line">|  |__main.js</div><div class="line">|</div><div class="line">|__test</div><div class="line">|  |__jest-pretest.js</div><div class="line">|  |__unit</div><div class="line">|     |__app.spec.js</div><div class="line">|</div><div class="line">|__package.json</div></pre></td></tr></table></figure>
+<p>All tests are in <code>test/unit</code> directory and end in <code>.spec.js</code>. For this example I’ll be testing the <code>src/app.js</code> component.</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
     <article id="post-default_export_value_babel_6x" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/04/08/default_export_value_babel_6x/" class="article-date">
@@ -160,7 +204,7 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p>I’m just starting to get into <a href="https://www.npmjs.com/package/angular2">angular2</a> with <a href="https://www.npmjs.com/package/typescript">TypeScript</a>. I decided to give the <a href="https://angular.io/docs/ts/latest/quickstart.html">angular2 quickstart application</a> a try. At first glance I wanted to use <a href="https://www.npmjs.com/package/webpack">webpack</a> instead of <a href="https://www.npmjs.com/package/systemjs">systemjs</a> for module loading.</p>
-<p>To begin here is my package.json file:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"angular2-typescript-webpack"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"1.2.0"</span>,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"postinstall"</span>: <span class="string">"typings install"</span>,</div><div class="line">    <span class="attr">"build"</span>: <span class="string">"webpack"</span>,</div><div class="line">    <span class="attr">"start"</span>: <span class="string">"webpack-dev-server"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"@angular/common"</span>: <span class="string">"2.0.0-rc.4"</span>,</div><div class="line">    <span class="attr">"@angular/compiler"</span>: <span class="string">"2.0.0-rc.4"</span>,</div><div class="line">    <span class="attr">"@angular/core"</span>: <span class="string">"2.0.0-rc.4"</span>,</div><div class="line">    <span class="attr">"@angular/http"</span>: <span class="string">"2.0.0-rc.4"</span>,</div><div class="line">    <span class="attr">"@angular/platform-browser"</span>: <span class="string">"2.0.0-rc.4"</span>,</div><div class="line">    <span class="attr">"@angular/platform-browser-dynamic"</span>: <span class="string">"2.0.0-rc.4"</span>,</div><div class="line">    <span class="attr">"@angular/router-deprecated"</span>: <span class="string">"2.0.0-rc.2"</span>,</div><div class="line">    <span class="attr">"reflect-metadata"</span>: <span class="string">"0.1.3"</span>,</div><div class="line">    <span class="attr">"rxjs"</span>: <span class="string">"5.0.0-beta.6"</span>,</div><div class="line">    <span class="attr">"zone.js"</span>: <span class="string">"0.6.12"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"ts-loader"</span>: <span class="string">"0.8.2"</span>,</div><div class="line">    <span class="attr">"typescript"</span>: <span class="string">"1.8.10"</span>,</div><div class="line">    <span class="attr">"typings"</span>: <span class="string">"1.3.0"</span>,</div><div class="line">    <span class="attr">"webpack"</span>: <span class="string">"1.13.0"</span>,</div><div class="line">    <span class="attr">"webpack-dev-server"</span>: <span class="string">"1.14.1"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>To begin here is my package.json file:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"angular2-typescript-webpack"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"1.3.0"</span>,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"postinstall"</span>: <span class="string">"typings install"</span>,</div><div class="line">    <span class="attr">"build"</span>: <span class="string">"webpack"</span>,</div><div class="line">    <span class="attr">"start"</span>: <span class="string">"webpack-dev-server"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"@angular/common"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/compiler"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/core"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/forms"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/http"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/platform-browser"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/platform-browser-dynamic"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/router"</span>: <span class="string">"3.0.0"</span>,</div><div class="line">    <span class="attr">"reflect-metadata"</span>: <span class="string">"^0.1.3"</span>,</div><div class="line">    <span class="attr">"rxjs"</span>: <span class="string">"5.0.0-beta.12"</span>,</div><div class="line">    <span class="attr">"zone.js"</span>: <span class="string">"^0.6.23"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"ts-loader"</span>: <span class="string">"0.8.2"</span>,</div><div class="line">    <span class="attr">"typescript"</span>: <span class="string">"1.8.10"</span>,</div><div class="line">    <span class="attr">"typings"</span>: <span class="string">"1.3.0"</span>,</div><div class="line">    <span class="attr">"webpack"</span>: <span class="string">"1.13.0"</span>,</div><div class="line">    <span class="attr">"webpack-dev-server"</span>: <span class="string">"1.14.1"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>I have <a href="https://www.npmjs.com/package/typescript">typescript</a> and <a href="https://www.npmjs.com/package/typings">typings</a> installed globally <strong>npm install typescript typings -g</strong> but included them in the devDependencies section just in case some people don’t want to install those globally.</p>
 <p>You’ll need a file named typings.json to install a es6-shim</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"globalDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"es6-shim"</span>: <span class="string">"github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -223,46 +267,6 @@ ga('send', 'pageview');
 </article>
 
   
-    <article id="post-simple_async_with_rxjs" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/10/14/simple_async_with_rxjs/" class="article-date">
-  <time datetime="2015-10-14T00:00:00.000Z" itemprop="datePublished">Oct 14th 2015</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/14/simple_async_with_rxjs/">Simple Async With RxJS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>I had a previous project that involved a lot of asynchronous javascript code. I wasn’t entirely pleased with the result but it worked. “I wish things could be a little simpler.” I kept saying to myself. The part of the application in question was a piece that grabbed data from a API call returning xml. That data had to be parsed and then inserted into a database. I used <a href="https://github.com/substack/hyperquest">hyperquest</a> to make the API call, <a href="https://github.com/assistunion/xml-stream">xml-stream</a> to parse the xml response and <a href="https://github.com/sequelize/sequelize">sequelize</a> for the database logic. </p>
-<h3 id="The-Problem"><a href="#The-Problem" class="headerlink" title="The Problem"></a>The Problem</h3><p><a href="https://github.com/assistunion/xml-stream">xml-stream</a> emits events while parsing and <a href="https://github.com/sequelize/sequelize">sequelize</a> uses promises during it’s querying. Having that work together and be readable/maintainable was a challenge.</p>
-        
-          <p class="article-more-link">
-            <a href="/2015/10/14/simple_async_with_rxjs/">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -282,7 +286,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -292,6 +296,10 @@ ga('send', 'pageview');
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
         
           <li>
             <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
@@ -309,10 +317,6 @@ ga('send', 'pageview');
             <a href="/2015/11/13/asp_net_dropdownlist_control_datasource/">Asp.net Dropdownlist Control Datasource Expression</a>
           </li>
         
-          <li>
-            <a href="/2015/10/14/simple_async_with_rxjs/">Simple Async With RxJS</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -325,7 +329,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 Schempy<br>
+      &copy; 2017 Schempy<br>
     </div>
   </div>
 </footer>
