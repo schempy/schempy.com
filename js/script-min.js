@@ -1,1 +1,0 @@
-window.onload=function(){document.querySelector(".article-share-link")&&document.querySelector(".article-share-link").addEventListener("click",function(t){var e=t.target.getAttribute("data-url"),n=encodeURIComponent(e),o="https://twitter.com/intent/tweet?url="+n;window.open(o,"_blank")},!1)};
