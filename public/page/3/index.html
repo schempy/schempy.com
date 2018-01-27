@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
+  
+  <title>Recent Blog Posts By Brian Schemp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:url" content="http://www.schempy.com/page/3/index.html">
+<meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Recent Blog Posts By Brian Schemp">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59930748-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives/">Archives</a>
+        
+          <a class="main-nav-link" href="https://www.github.com/schempy">GitHub</a>
+        
+          <a class="main-nav-link" href="https://www.twitter.com/schempy">Twitter</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-react_with_react_engine" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/04/react_with_react_engine/" class="article-date">
+  <time datetime="2015-06-04T00:00:00.000Z" itemprop="datePublished">Jun 4th 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/04/react_with_react_engine/">React With react-engine</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Previously I wrote an article about <a href="http://schempy.com/2015/02/16/reactjs_flux_and_routing_for_seo/" target="_blank" rel="external">rendering react server side with seo</a>. It was an experiment that worked but needed improvement. Lately I’ve been using <a href="https://github.com/paypal/react-engine" target="_blank" rel="external">react-engine</a> to render react views client and server side. It’s a rendering engine for <a href="https://github.com/strongloop/express" target="_blank" rel="external">express</a> that uses <a href="https://github.com/rackt/react-router" target="_blank" rel="external">react-router</a>.</p>
+<p>I wanted to use the same react components in my previous example and modify as little as possible.<br>The demo will display a html select element with a list of categories. Once a category is selected a list of products, within that category, will be displayed. The select element change will fire-off an api call to get the products.</p>
+<p>Here’s the routing I am using:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> React = <span class="built_in">require</span>(<span class="string">'react'</span>);</div><div class="line"><span class="keyword">var</span> Router = <span class="built_in">require</span>(<span class="string">'react-router'</span>);</div><div class="line"><span class="keyword">var</span> AppHandler = <span class="built_in">require</span>(<span class="string">'./handlers/AppHandler.jsx'</span>);</div><div class="line"><span class="keyword">var</span> ProductHandler = <span class="built_in">require</span>(<span class="string">'./handlers/ProductHandler.jsx'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> Routes = (</div><div class="line">	&lt;Router.Route name="app" path="/" handler=&#123;AppHandler&#125;&gt;</div><div class="line">		&lt;Router.Route name="products" path="/products/:category" handler=&#123;ProductHandler&#125; /&gt;</div><div class="line">	&lt;/Router.Route&gt;</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>I had to change <strong>AppHandler</strong> to use a new component, <strong>Layout</strong>, which serves as the main html template. </p>
+<p>Here’s the <strong>AppHandler</strong>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> React = <span class="built_in">require</span>(<span class="string">'react'</span>);</div><div class="line"><span class="keyword">var</span> Router = <span class="built_in">require</span>(<span class="string">'react-router'</span>);</div><div class="line"><span class="keyword">var</span> Layout = <span class="built_in">require</span>(<span class="string">'../components/Layout.jsx'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> AppHandler = React.createClass(&#123;</div><div class="line">	render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			&lt;Layout &#123;...this.props&#125; &gt;</div><div class="line">				&lt;Router.RouteHandler &#123;...this.props&#125; /&gt;</div><div class="line">			&lt;/Layout&gt;</div><div class="line">		);</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">module.exports = AppHandler;</div></pre></td></tr></table></figure>
+<p>I pass all the properties into <strong>Layout</strong> and also into the <strong>RouteHandler</strong>. The <strong>RouteHandler</strong> is where the active route will be rendered. I use <a href="https://facebook.github.io/react/docs/jsx-spread.html" target="_blank" rel="external">spread attributes</a> to pass properties.</p>
+<p>Here’s the <strong>Layout</strong> component:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> React = <span class="built_in">require</span>(<span class="string">'react'</span>);</div><div class="line"><span class="keyword">var</span> CategoryList = <span class="built_in">require</span>(<span class="string">'./CategoryList.jsx'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> Layout = React.createClass(&#123;</div><div class="line">	render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			&lt;html&gt;</div><div class="line">				&lt;head&gt;</div><div class="line">					&lt;meta charSet='utf-8' /&gt;</div><div class="line">					&lt;title&gt;&#123;this.props.title&#125;&lt;/title&gt;</div><div class="line">				&lt;/head&gt;</div><div class="line">				&lt;body&gt;</div><div class="line">					&lt;CategoryList categories=&#123;this.props.categories&#125; /&gt;</div><div class="line">					&#123;this.props.children&#125;</div><div class="line">				&lt;/body&gt;</div><div class="line">				&lt;script src='/bundle.js'&gt;&lt;/script&gt;</div><div class="line">			&lt;/html&gt;</div><div class="line">		);</div><div class="line">	&#125;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">module.exports = Layout;</div></pre></td></tr></table></figure>
+<p>I’ll be displaying the <strong>CategoryList</strong> component in all the views. An important part is the <strong>{this.props.children}</strong> which represents the children of the <strong>Layout</strong> component. In this case it’s the <strong>RouteHandler</strong>. </p>
+<p>##server-side setup</p>
+<ol>
+<li>Require <a href="https://github.com/petehunt/node-jsx" target="_blank" rel="external">node-jsx</a> to allow node to require <strong>jsx</strong> files.</li>
+<li>Create a template engine using <a href="https://github.com/paypal/react-engine" target="_blank" rel="external">react-engine</a>.</li>
+<li>Register the template engine for <strong>jsx</strong> files.</li>
+<li>Set the template/view directory.</li>
+<li>Set <strong>jsx</strong> as the default view engine.</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Make jsx file requirable by node.</span></div><div class="line"><span class="built_in">require</span>(<span class="string">'node-jsx'</span>).install();</div><div class="line"></div><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"></div><div class="line"><span class="comment">// Create the template engine with react-engine.</span></div><div class="line"><span class="keyword">var</span> engine = <span class="built_in">require</span>(<span class="string">'react-engine'</span>).server.create(&#123;</div><div class="line">	reactRoutes: path.normalize(path.join(__dirname, <span class="string">'/src/Routes.jsx'</span>))</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// Registers the template engine for jsx files.</span></div><div class="line">app.engine(<span class="string">'.jsx'</span>, engine);</div><div class="line"></div><div class="line"><span class="comment">// Set the template/view directory.</span></div><div class="line">app.set(<span class="string">'views'</span>, path.normalize(path.join(__dirname, <span class="string">'/src/handlers'</span>)));</div><div class="line"></div><div class="line"><span class="comment">// Set jsx as the view engine.</span></div><div class="line">app.set(<span class="string">'view engine'</span>, <span class="string">'jsx'</span>);</div><div class="line"></div><div class="line"><span class="comment">// Set the custom view</span></div><div class="line">app.set(<span class="string">'view'</span>, <span class="built_in">require</span>(<span class="string">'react-engine/lib/expressView'</span>));</div></pre></td></tr></table></figure>
+<p>Rendering the views on the server is easy. Pass the <strong>url</strong> and any <strong>data</strong> the view requires. Here’s an example of rendering the main route:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> router = express.Router;</div><div class="line"></div><div class="line">router.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">	res.render(req.url, &#123;</div><div class="line">		title: <span class="string">'Welcome!'</span></div><div class="line">	&#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>##client-side setup</p>
+<ol>
+<li>Require the <a href="https://github.com/rackt/react-router" target="_blank" rel="external">react-router</a> routes.</li>
+<li>Require all view handler files. For this example I used <a href="https://github.com/capaj/require-globify" target="_blank" rel="external">require-globify</a> which allows you to require files with globbing expressions. I use <a href="https://github.com/substack/node-browserify" target="_blank" rel="external">browserify</a> which is why this step is necessary.</li>
+<li>Set boot options.</li>
+<li>Boot!</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Routes = <span class="built_in">require</span>(<span class="string">'./Routes.jsx'</span>);</div><div class="line"><span class="keyword">var</span> Client = <span class="built_in">require</span>(<span class="string">'react-engine/lib/client'</span>);</div><div class="line"></div><div class="line"><span class="comment">// Include all view handler files.</span></div><div class="line"><span class="built_in">require</span>(<span class="string">'./handlers/*.jsx'</span>, &#123; glob: <span class="literal">true</span> &#125;);</div><div class="line"></div><div class="line"><span class="comment">// Boot options</span></div><div class="line"><span class="keyword">var</span> options = &#123;</div><div class="line">	routes: Routes,</div><div class="line">	</div><div class="line">	<span class="comment">// Supply a function that can be called to resolove the file that</span></div><div class="line">	<span class="comment">// was rendered.</span></div><div class="line">	viewResolver: <span class="function"><span class="keyword">function</span>(<span class="params">viewName</span>) </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="built_in">require</span>(<span class="string">'./handlers/'</span> + viewName);</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// Boot when you are ready! The DOMContentLoaded event is fired when</span></div><div class="line"><span class="comment">// the initial HTML has been completely loaded without waiting for</span></div><div class="line"><span class="comment">// stylesheets, images and subframes to finish loading.</span></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'DOMContentLoaded'</span>, <span class="function"><span class="keyword">function</span> <span class="title">onLoad</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	Client.boot(options);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>I created a github repo <a href="https://github.com/schempy/react-flux-routing-seo-revisited" target="_blank" rel="external">react-flux-routing-seo-revisited</a> for this example.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
+    <article id="post-source_maps_with_nodejs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/20/source_maps_with_nodejs/" class="article-date">
+  <time datetime="2015-05-20T00:00:00.000Z" itemprop="datePublished">May 20th 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/20/source_maps_with_nodejs/">Source Maps With Node.js</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Using source maps when generating ES5 code from ES6 has proved to be very helpful in my development. When debugging I want errors to reference the source files not the generated files. I use <a href="https://github.com/babel/babel" target="_blank" rel="external">babel</a> to generate ES5 code from ES6 and source-map files. I also use <a href="https://github.com/evanw/node-source-map-support" target="_blank" rel="external">source-map-support</a> for referencing stack traces in the source file.</p>
+<p>For this example I’ll create a simple ES6 class that extends EventEmitter and will emit a success event. I’ll purposely misspell the word emit and check if the error references the source file.</p>
+<p>My ES6 files will be in a directory named <strong>lib</strong>. The generated ES5 and source map files will be in a directory named <strong>dist</strong>. </p>
+<p>In my ES6 class I need to include the <a href="https://github.com/evanw/node-source-map-support" target="_blank" rel="external">source-map-support</a> library and call its install() in the construtor.<br>Here is the ES6 class:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; EventEmitter &#125; <span class="keyword">from</span> <span class="string">'events'</span>;</div><div class="line"><span class="keyword">import</span> &#123; install &#125; <span class="keyword">from</span> <span class="string">'source-map-support'</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">EmitStuff</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>() &#123;</div><div class="line">		<span class="keyword">super</span>();</div><div class="line">		install(); <span class="comment">// Required for source-map-support</span></div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	tryMe() &#123;</div><div class="line">		<span class="keyword">this</span>.emitt(<span class="string">'success'</span>, <span class="string">'It works!'</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> EmitStuff;</div></pre></td></tr></table></figure>
+<p>Here is the entry point that uses the <strong>EmitStuff</strong> class I created. It uses the ES5 generated file.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EmitStuff = <span class="built_in">require</span>(<span class="string">'./dist/emit-stuff'</span>);</div><div class="line"><span class="keyword">var</span> emitStuff = <span class="keyword">new</span> EmitStuff();</div><div class="line"></div><div class="line">emitStuff.on(<span class="string">'success'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(response);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">emitStuff.tryMe();</div></pre></td></tr></table></figure>
+<p>Here is the build step that will generate ES5 code and source-map files into the <strong>dist</strong> directory from the ES6 code in the <strong>lib</strong> directory.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">babel out-dir dist lib --source-maps</div></pre></td></tr></table></figure>
+<p>Now when I run my entry point file I get the following:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">node index.js</div><div class="line"></div><div class="line">/emitstuff/lib/emit-stuff.js:11</div><div class="line">		this.emitt(<span class="string">'success'</span>, <span class="string">'It worked!'</span>);</div><div class="line">       ^</div><div class="line">TypeError: undefined is not a <span class="keyword">function</span></div><div class="line">    at EmitStuff.tryMe (/emitstuff/lib/emit-stuff.js:11:8)</div><div class="line">	....</div></pre></td></tr></table></figure>
+<p>The error points to the source file!</p>
+<p>I created a github repo, <a href="https://github.com/schempy/source-maps-with-node" target="_blank" rel="external">source-maps-with-node</a> for this example.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
+    <article id="post-responsive_layout_with_stylus_jeet_and_rupture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/" class="article-date">
+  <time datetime="2015-04-03T00:00:00.000Z" itemprop="datePublished">Apr 3rd 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/">Responsive Layouts With Stylus Jeet And Rupture</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Develop for mobile first is a common theme you hear today. I use three libraries for preprocessing css to help with this process. They make it easy to get a responsive site running fairly quick.</p>
+<ol>
+<li><a href="https://github.com/stylus/stylus" target="_blank" rel="external">Stylus</a> - CSS pre-processor.</li>
+<li><a href="https://github.com/mojotech/jeet" target="_blank" rel="external">Jeet</a> - Flexible ratio grid system for stylus. </li>
+<li><a href="https://github.com/jenius/rupture" target="_blank" rel="external">Rupture</a> - Simple media queries in stylus.</li>
+</ol>
+<p>Below is a sample design I’ll be working with. There is a sidebar and a content area. I’ve decided to make a breakpoint at 600 pixels. Once the browser screen size is below 600 pixels the layout will change.</p>
+<p><img src="https://raw.githubusercontent.com/schempy/responsive-layout/master/static/images/responsive-layout-horizontal.png" alt="alt text"></p>
+<p>This is how the screen will display once the size is below 600 pixels. I’ve stacked the sidebar and content area. I also display the links horizontally instead of vertically.</p>
+<p><img src="https://raw.githubusercontent.com/schempy/responsive-layout/master/static/images/responsive-layout-vertical.png" alt="alt text"></p>
+<p>I’ll use the following stylus code to accomplish the above:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">import</span> <span class="string">'jeet'</span></div><div class="line"></div><div class="line">#root</div><div class="line">	center(<span class="number">960px</span>)</div><div class="line">	.sidebar</div><div class="line">		col(<span class="number">1</span>/<span class="number">3</span>)</div><div class="line">		background-color: #FFFFCC</div><div class="line">		</div><div class="line">		ul</div><div class="line">			list-style: none</div><div class="line">			li</div><div class="line">				display: none</div><div class="line">				margin: <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="number">0</span></div><div class="line">				</div><div class="line">		+below(<span class="number">600px</span>)</div><div class="line">			stack()</div><div class="line">			ul</div><div class="line">				center(<span class="number">200px</span>)</div><div class="line">				li</div><div class="line">					display: inline</div><div class="line">					margin: <span class="number">0</span> <span class="number">15px</span> <span class="number">0</span> <span class="number">0</span></div><div class="line">	.main</div><div class="line">		col(<span class="number">2</span>/<span class="number">3</span>)</div><div class="line">		background-color: #CCCCCC</div><div class="line">		+below(<span class="number">600px</span>)</div><div class="line">			stack()</div></pre></td></tr></table></figure>
+<p>To summarize what I’m doing:</p>
+<ul>
+<li>Center the document within 960 pixels.</li>
+<li>Set the <strong>.sidebar</strong> element to take up 1/3 of the screen size.</li>
+<li>Each <strong>.sidebar &gt; ul &gt; li</strong> will be displayed vertically and have a bottom margin of 15 pixels.</li>
+<li>Set the <strong>.main</strong> element to take up 2/3 of the screen size.</li>
+</ul>
+<p>When the screen size is below 600 pixles:</p>
+<ul>
+<li>Stack the <strong>.sidebar</strong> and <strong>.main</strong> elements vertically.</li>
+<li>Center the <strong>.sidebar &gt; ul</strong> within 200 pixels.</li>
+<li>Each <strong>.sidebar &gt; ul &gt; li</strong> will be displayed horizontally and have a right margin of 15 pixels.</li>
+</ul>
+<p>For under 30 lines of code I accomplished a lot and set a good foundation for a responsive design. I’ll need to create a build step for the above code to be processed into css. That’s pretty easy too:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ stylus -u jeet -u rupture css/*.styl --out static/bundle.css</div></pre></td></tr></table></figure>
+<p>That one liner takes the stylus file and creates a css file, bundle.css, in the directory static. I can then include the bundle.css in my html.</p>
+<p>I created a github repo, <a href="https://github.com/schempy/responsive-layout" target="_blank" rel="external">responsive-layout</a> for this example.</p>
+<p>Questions? Comments? Tweet me <a href="https://www.twitter.com/schempy" target="_blank" rel="external">@schempy</a> or email <a href="mailto:schempysays@gmail.com" target="_blank" rel="external">schempysays@gmail.com</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
+    <article id="post-es6-generator-async" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/03/24/es6-generator-async/" class="article-date">
+  <time datetime="2015-03-24T00:00:00.000Z" itemprop="datePublished">Mar 24th 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/24/es6-generator-async/">Async Tasks With ES6 Generators</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ES6 generators seem to be a very good fit for handling asynchronous actions. I’ve been using a library, <a href="https://www.npmjs.com/package/generator-runner" target="_blank" rel="external">generator-runner</a>, which uses ES6 generators for running async tasks. To use the library you create a runner that takes two parameters:</p>
+<ol>
+<li><strong>A generator function</strong>. Within this function you <strong>yield</strong> to a async task. The async task is invoked with a callback to continue the generator (calling next). The callback returns the value for the yield expression. The runner then takes the value for yield expression and returns it.</li>
+<li><strong>A callback to handle the return of the generator</strong>. The return value from the previous step is handled here.</li>
+</ol>
+<p>The syntax for the above is:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> task = <span class="built_in">require</span>(<span class="string">'generator-runner'</span>);</div><div class="line"></div><div class="line"><span class="comment">// Define the runner.</span></div><div class="line">task(</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</div><div class="line">	</div><div class="line">		<span class="comment">// Yield to some async task and set the value for async_result.</span></div><div class="line">		<span class="keyword">let</span> async_result = <span class="keyword">yield</span> <span class="function"><span class="keyword">function</span> (<span class="params">next</span>) </span>&#123;</div><div class="line">			<span class="comment">// Some async task goes here</span></div><div class="line">		</div><div class="line">			<span class="keyword">return</span> next(<span class="literal">null</span>, <span class="string">'result'</span>); <span class="comment">// Return if success OR</span></div><div class="line">			<span class="keyword">return</span> next(err, <span class="literal">undefined</span>); <span class="comment">// Return error</span></div><div class="line">		&#125;;</div><div class="line">	</div><div class="line">		<span class="comment">// Return the value from the async task.</span></div><div class="line">		<span class="keyword">return</span> async_result;</div><div class="line">	&#125;,</div><div class="line">	</div><div class="line">	<span class="comment">// Callback to handle the return from generator.</span></div><div class="line">	<span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</div><div class="line">		<span class="keyword">if</span> (err) &#123;&#125; <span class="keyword">else</span> &#123;&#125;</div><div class="line">	&#125;</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>As an example I want to get the contents of a JSON file from a http request and display the results. The generator function will make the http request using <a href="https://www.npmjs.com/package/hyperquest" target="_blank" rel="external">hyperquest</a>. The result from the http request is a readable stream. I’ll pipe the readable stream into <a href="https://www.npmjs.com/package/concat-stream" target="_blank" rel="external">concat-stream</a> which fires a callback with all the data from our readable stream. Then I’ll call the callback to continue the generator (calling next) with the results from the http request.</p>
+<p>Here’s the example:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> task = <span class="built_in">require</span>(<span class="string">'generator-runner'</span>);</div><div class="line"><span class="keyword">var</span> hyperquest = <span class="built_in">require</span>(<span class="string">'hyperquest'</span>);</div><div class="line"><span class="keyword">var</span> concat = <span class="built_in">require</span>(<span class="string">'concat-stream'</span>);</div><div class="line"></div><div class="line"><span class="comment">// Set URL that we want to get the contents.</span></div><div class="line"><span class="keyword">let</span> url = <span class="string">'https://iojs.org/dist/index.json'</span>;</div><div class="line"></div><div class="line"><span class="comment">// Define our runner.</span></div><div class="line">task(</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</div><div class="line">	</div><div class="line">		<span class="comment">// use hyperquest to get the contents of the URL.</span></div><div class="line">		<span class="keyword">let</span> stream = hyperquest(url);</div><div class="line">	</div><div class="line">		<span class="comment">// Yield to async action.</span></div><div class="line">		<span class="keyword">let</span> async_result = <span class="keyword">yield</span> <span class="function"><span class="keyword">function</span> (<span class="params">next</span>) </span>&#123;</div><div class="line">	</div><div class="line">			<span class="comment">// Pipe the readable stream, from hyperquest, into</span></div><div class="line">			<span class="comment">// concat-stream and call the continuation callback</span></div><div class="line">			<span class="comment">// with the results from concat-stream.</span></div><div class="line">			stream.pipe(concat(</div><div class="line">				<span class="function"><span class="keyword">function</span> (<span class="params">body</span>) </span>&#123;</div><div class="line">					next(<span class="literal">null</span>, body.toString());</div><div class="line">				&#125;</div><div class="line">			))</div><div class="line">			</div><div class="line">			<span class="comment">// Error! Call continuation callback with error.</span></div><div class="line">			.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">				next(err, <span class="literal">undefined</span>);</div><div class="line">			&#125;);</div><div class="line">		&#125;;</div><div class="line">	</div><div class="line">		<span class="comment">// Return value from async task.</span></div><div class="line">		<span class="keyword">return</span> async_result;</div><div class="line">&#125;,</div><div class="line"></div><div class="line"><span class="comment">// Callback to handle the return from generator.</span></div><div class="line"><span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (err) &#123;</div><div class="line">		<span class="built_in">console</span>.error(err);</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="built_in">console</span>.log(ret);</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>I created a github repo, <a href="https://github.com/schempy/async-tasks-with-es6-generators" target="_blank" rel="external">async-tasks-with-es6-generators</a> for this example.<br>To run the example do the following:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install</div><div class="line">$ npm run prepublish</div><div class="line">$ npm start</div></pre></td></tr></table></figure>
+<p><strong>Note:</strong><br>I use <a href="https://www.npmjs.com/package/babel" target="_blank" rel="external">babel</a>, turns ES6 code into ES5, in the example files.</p>
+<p>Questions? Comments? Tweet me <a href="https://www.twitter.com/schempy" target="_blank" rel="external">@schempy</a> or email <a href="mailto:schempysays@gmail.com" target="_blank" rel="external">schempysays@gmail.com</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
+    <article id="post-nodejs_stream_image_upload" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/03/11/nodejs_stream_image_upload/" class="article-date">
+  <time datetime="2015-03-11T00:00:00.000Z" itemprop="datePublished">Mar 11th 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/11/nodejs_stream_image_upload/">Streaming File Uploads With Node.js</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’ve been experimenting with Node.js to build a http server for handling POST requests. Particularly for uploading files. I would send a multipart-form/data POST request containing one or more files. The route handler would parse and stream any file to a destination. That destination could be a directory on the server or a storage service like Amazon S3.</p>
+<p>I used <a href="https://www.npmjs.com/package/routes" target="_blank" rel="external">routes</a> for handling routing and <a href="https://www.npmjs.com/package/busboy" target="_blank" rel="external">busboy</a> for parsing HTML form data. Busyboy is a perfect module for this application. It emits a <strong>file</strong> event for incoming files and a <strong>field</strong> event for each non-file field. If a file is found Busboy will emit a <strong>data</strong> event when streaming and an <strong>end</strong> event when the streaming is complete.</p>
+<p> Here’s an example of the http server:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"><span class="keyword">var</span> router = <span class="built_in">require</span>(<span class="string">'routes'</span>)();</div><div class="line"><span class="keyword">var</span> Busboy = <span class="built_in">require</span>(<span class="string">'busboy'</span>);</div><div class="line"><span class="keyword">var</span> port = <span class="number">5000</span>;</div><div class="line"></div><div class="line"><span class="comment">// Define our route for uploading files</span></div><div class="line">router.addRoute(<span class="string">'/images'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, params</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (req.method === <span class="string">'POST'</span>) &#123;</div><div class="line">	</div><div class="line">		<span class="comment">// Create an Busyboy instance passing the HTTP Request headers.</span></div><div class="line">		<span class="keyword">var</span> busboy = <span class="keyword">new</span> Busboy(&#123; headers: req.headers &#125;);</div><div class="line">		</div><div class="line">		<span class="comment">// Listen for event when Busboy finds a file to stream.</span></div><div class="line">		busboy.on(<span class="string">'file'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">fieldname, file, filename, encoding, mimetype</span>) </span>&#123;</div><div class="line">		</div><div class="line">			<span class="comment">// We are streaming! Handle chunks</span></div><div class="line">			file.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">				<span class="comment">// Here we can act on the data chunks streamed.</span></div><div class="line">			&#125;);</div><div class="line">			</div><div class="line">			<span class="comment">// Completed streaming the file.</span></div><div class="line">			file.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">'Finished with '</span> + fieldname);</div><div class="line">			&#125;);</div><div class="line">		&#125;);</div><div class="line">		</div><div class="line">		<span class="comment">// Listen for event when Busboy finds a non-file field.</span></div><div class="line">		busboy.on(<span class="string">'field'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">fieldname, val</span>) </span>&#123;</div><div class="line">			<span class="comment">// Do something with non-file field.</span></div><div class="line">		&#125;);</div><div class="line">		</div><div class="line">		<span class="comment">// Listen for event when Busboy is finished parsing the form.</span></div><div class="line">		busboy.on(<span class="string">'finish'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">			res.statusCode = <span class="number">200</span>;</div><div class="line">			res.end();</div><div class="line">		&#125;);</div><div class="line">		</div><div class="line">		<span class="comment">// Pipe the HTTP Request into Busboy.</span></div><div class="line">		req.pipe(busboy);</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">// Check if the HTTP Request URL matches on of our routes.</span></div><div class="line">	<span class="keyword">var</span> match = router.match(req.url);</div><div class="line">	</div><div class="line">	<span class="comment">// We have a match!</span></div><div class="line">	<span class="keyword">if</span> (match) match.fn(req, res, match.params);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">server.listen(port, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">'Listening on port '</span> + port);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>This was a fun experiment. Handling multipart/form-data was pretty easy and the ability to stream file uploads is awesome!</p>
+<p>I created a gist for this example <a href="https://gist.github.com/schempy/0fe3abab3d834c94b3be" target="_blank" rel="external">stream-file-uploads-nodejs.js</a>.</p>
+<p>Questions? Comments? Tweet me <a href="https://www.twitter.com/schempy" target="_blank" rel="external">@schempy</a> or email <a href="mailto:schempysays@gmail.com" target="_blank" rel="external">schempysays@gmail.com</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Schempy<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/script-min.js"></script>
+  </div>
+</body>
+</html>

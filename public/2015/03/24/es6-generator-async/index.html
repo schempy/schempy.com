@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
+  
+  <title>Async Tasks With ES6 Generators | Recent Blog Posts By Brian Schemp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ES6 generators seem to be a very good fit for handling asynchronous actions. I’ve been using a library, generator-runner, which uses ES6 generators for running async tasks. To use the library you crea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Async Tasks With ES6 Generators">
+<meta property="og:url" content="http://www.schempy.com/2015/03/24/es6-generator-async/index.html">
+<meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:description" content="ES6 generators seem to be a very good fit for handling asynchronous actions. I’ve been using a library, generator-runner, which uses ES6 generators for running async tasks. To use the library you crea">
+<meta property="og:updated_time" content="2016-08-07T02:45:00.941Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Async Tasks With ES6 Generators">
+<meta name="twitter:description" content="ES6 generators seem to be a very good fit for handling asynchronous actions. I’ve been using a library, generator-runner, which uses ES6 generators for running async tasks. To use the library you crea">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59930748-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives/">Archives</a>
+        
+          <a class="main-nav-link" href="https://www.github.com/schempy">GitHub</a>
+        
+          <a class="main-nav-link" href="https://www.twitter.com/schempy">Twitter</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-es6-generator-async" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/03/24/es6-generator-async/" class="article-date">
+  <time datetime="2015-03-24T00:00:00.000Z" itemprop="datePublished">Mar 24th 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Async Tasks With ES6 Generators
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ES6 generators seem to be a very good fit for handling asynchronous actions. I’ve been using a library, <a href="https://www.npmjs.com/package/generator-runner" target="_blank" rel="external">generator-runner</a>, which uses ES6 generators for running async tasks. To use the library you create a runner that takes two parameters:</p>
+<ol>
+<li><strong>A generator function</strong>. Within this function you <strong>yield</strong> to a async task. The async task is invoked with a callback to continue the generator (calling next). The callback returns the value for the yield expression. The runner then takes the value for yield expression and returns it.</li>
+<li><strong>A callback to handle the return of the generator</strong>. The return value from the previous step is handled here.</li>
+</ol>
+<p>The syntax for the above is:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> task = <span class="built_in">require</span>(<span class="string">'generator-runner'</span>);</div><div class="line"></div><div class="line"><span class="comment">// Define the runner.</span></div><div class="line">task(</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</div><div class="line">	</div><div class="line">		<span class="comment">// Yield to some async task and set the value for async_result.</span></div><div class="line">		<span class="keyword">let</span> async_result = <span class="keyword">yield</span> <span class="function"><span class="keyword">function</span> (<span class="params">next</span>) </span>&#123;</div><div class="line">			<span class="comment">// Some async task goes here</span></div><div class="line">		</div><div class="line">			<span class="keyword">return</span> next(<span class="literal">null</span>, <span class="string">'result'</span>); <span class="comment">// Return if success OR</span></div><div class="line">			<span class="keyword">return</span> next(err, <span class="literal">undefined</span>); <span class="comment">// Return error</span></div><div class="line">		&#125;;</div><div class="line">	</div><div class="line">		<span class="comment">// Return the value from the async task.</span></div><div class="line">		<span class="keyword">return</span> async_result;</div><div class="line">	&#125;,</div><div class="line">	</div><div class="line">	<span class="comment">// Callback to handle the return from generator.</span></div><div class="line">	<span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</div><div class="line">		<span class="keyword">if</span> (err) &#123;&#125; <span class="keyword">else</span> &#123;&#125;</div><div class="line">	&#125;</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>As an example I want to get the contents of a JSON file from a http request and display the results. The generator function will make the http request using <a href="https://www.npmjs.com/package/hyperquest" target="_blank" rel="external">hyperquest</a>. The result from the http request is a readable stream. I’ll pipe the readable stream into <a href="https://www.npmjs.com/package/concat-stream" target="_blank" rel="external">concat-stream</a> which fires a callback with all the data from our readable stream. Then I’ll call the callback to continue the generator (calling next) with the results from the http request.</p>
+<p>Here’s the example:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> task = <span class="built_in">require</span>(<span class="string">'generator-runner'</span>);</div><div class="line"><span class="keyword">var</span> hyperquest = <span class="built_in">require</span>(<span class="string">'hyperquest'</span>);</div><div class="line"><span class="keyword">var</span> concat = <span class="built_in">require</span>(<span class="string">'concat-stream'</span>);</div><div class="line"></div><div class="line"><span class="comment">// Set URL that we want to get the contents.</span></div><div class="line"><span class="keyword">let</span> url = <span class="string">'https://iojs.org/dist/index.json'</span>;</div><div class="line"></div><div class="line"><span class="comment">// Define our runner.</span></div><div class="line">task(</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</div><div class="line">	</div><div class="line">		<span class="comment">// use hyperquest to get the contents of the URL.</span></div><div class="line">		<span class="keyword">let</span> stream = hyperquest(url);</div><div class="line">	</div><div class="line">		<span class="comment">// Yield to async action.</span></div><div class="line">		<span class="keyword">let</span> async_result = <span class="keyword">yield</span> <span class="function"><span class="keyword">function</span> (<span class="params">next</span>) </span>&#123;</div><div class="line">	</div><div class="line">			<span class="comment">// Pipe the readable stream, from hyperquest, into</span></div><div class="line">			<span class="comment">// concat-stream and call the continuation callback</span></div><div class="line">			<span class="comment">// with the results from concat-stream.</span></div><div class="line">			stream.pipe(concat(</div><div class="line">				<span class="function"><span class="keyword">function</span> (<span class="params">body</span>) </span>&#123;</div><div class="line">					next(<span class="literal">null</span>, body.toString());</div><div class="line">				&#125;</div><div class="line">			))</div><div class="line">			</div><div class="line">			<span class="comment">// Error! Call continuation callback with error.</span></div><div class="line">			.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">				next(err, <span class="literal">undefined</span>);</div><div class="line">			&#125;);</div><div class="line">		&#125;;</div><div class="line">	</div><div class="line">		<span class="comment">// Return value from async task.</span></div><div class="line">		<span class="keyword">return</span> async_result;</div><div class="line">&#125;,</div><div class="line"></div><div class="line"><span class="comment">// Callback to handle the return from generator.</span></div><div class="line"><span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (err) &#123;</div><div class="line">		<span class="built_in">console</span>.error(err);</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="built_in">console</span>.log(ret);</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>I created a github repo, <a href="https://github.com/schempy/async-tasks-with-es6-generators" target="_blank" rel="external">async-tasks-with-es6-generators</a> for this example.<br>To run the example do the following:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install</div><div class="line">$ npm run prepublish</div><div class="line">$ npm start</div></pre></td></tr></table></figure>
+<p><strong>Note:</strong><br>I use <a href="https://www.npmjs.com/package/babel" target="_blank" rel="external">babel</a>, turns ES6 code into ES5, in the example files.</p>
+<p>Questions? Comments? Tweet me <a href="https://www.twitter.com/schempy" target="_blank" rel="external">@schempy</a> or email <a href="mailto:schempysays@gmail.com" target="_blank" rel="external">schempysays@gmail.com</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.schempy.com/2015/03/24/es6-generator-async/" data-id="cirk0bscc000383mksay8upql" class="article-share-link">Tweet This</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Responsive Layouts With Stylus Jeet And Rupture
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/03/11/nodejs_stream_image_upload/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Streaming File Uploads With Node.js</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Schempy<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/script-min.js"></script>
+  </div>
+</body>
+</html>

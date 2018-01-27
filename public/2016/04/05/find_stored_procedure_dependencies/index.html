@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
+  
+  <title>Find Stored Procedure Dependencies | Recent Blog Posts By Brian Schemp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:
+123456use MY_DBSELECT ROUTINE_NAMEFROM INFORMATION_SCHEM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Find Stored Procedure Dependencies">
+<meta property="og:url" content="http://www.schempy.com/2016/04/05/find_stored_procedure_dependencies/index.html">
+<meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:description" content="Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:
+123456use MY_DBSELECT ROUTINE_NAMEFROM INFORMATION_SCHEM">
+<meta property="og:updated_time" content="2016-08-07T02:45:00.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Find Stored Procedure Dependencies">
+<meta name="twitter:description" content="Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:
+123456use MY_DBSELECT ROUTINE_NAMEFROM INFORMATION_SCHEM">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59930748-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives/">Archives</a>
+        
+          <a class="main-nav-link" href="https://www.github.com/schempy">GitHub</a>
+        
+          <a class="main-nav-link" href="https://www.twitter.com/schempy">Twitter</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-find_stored_procedure_dependencies" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/05/find_stored_procedure_dependencies/" class="article-date">
+  <time datetime="2016-04-05T00:00:00.000Z" itemprop="datePublished">Apr 5th 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Find Stored Procedure Dependencies
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> MY_DB</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> ROUTINE_NAME</div><div class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.ROUTINES</div><div class="line"><span class="keyword">WHERE</span> ROUTINE_DEFINITION <span class="keyword">LIKE</span> <span class="string">'%myStoredProcedure%'</span></div><div class="line"><span class="keyword">AND</span> ROUTINE_TYPE=<span class="string">'PROCEDURE'</span></div></pre></td></tr></table></figure>
+<p>This query looks through all the stored procedure definitions, in  the  <strong>MY_DB</strong> database, for the words <code>myStoredProcedure</code>. The results will display all the stored procedures including the <strong>myStoredProcedure</strong>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.schempy.com/2016/04/05/find_stored_procedure_dependencies/" data-id="cirk0bsce000483mkc499zd4n" class="article-share-link">Tweet This</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/04/08/default_export_value_babel_6x/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Default export value in Babel 6.x
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/19/angular2_webpack_typescript/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular2 With Typescript And Webpack</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Schempy<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/script-min.js"></script>
+  </div>
+</body>
+</html>

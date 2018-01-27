@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
+  
+  <title>Aurelia Testing With Jest | Recent Blog Posts By Brian Schemp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Setting up Jest to test your Aurelia components is pretty easy. The Aurelia team has a great collection of starter kits that can get you setup using Aurelia. I started with the esnext-webpack version">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Aurelia Testing With Jest">
+<meta property="og:url" content="http://www.schempy.com/2017/05/25/aurelia_testing_with_jest/index.html">
+<meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:description" content="Setting up Jest to test your Aurelia components is pretty easy. The Aurelia team has a great collection of starter kits that can get you setup using Aurelia. I started with the esnext-webpack version">
+<meta property="og:updated_time" content="2017-05-25T18:03:40.981Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Aurelia Testing With Jest">
+<meta name="twitter:description" content="Setting up Jest to test your Aurelia components is pretty easy. The Aurelia team has a great collection of starter kits that can get you setup using Aurelia. I started with the esnext-webpack version">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59930748-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives/">Archives</a>
+        
+          <a class="main-nav-link" href="https://www.github.com/schempy">GitHub</a>
+        
+          <a class="main-nav-link" href="https://www.twitter.com/schempy">Twitter</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-aurelia_testing_with_jest" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/25/aurelia_testing_with_jest/" class="article-date">
+  <time datetime="2017-05-25T00:00:00.000Z" itemprop="datePublished">May 25th 2017</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Aurelia Testing With Jest
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Setting up <a href="https://facebook.github.io/jest/" target="_blank" rel="external">Jest</a> to test your Aurelia components is pretty easy. The Aurelia team has a great collection of <a href="https://github.com/aurelia/skeleton-navigation" target="_blank" rel="external">starter kits</a> that can get you setup using Aurelia. I started with the esnext-webpack version and stripped out some dependencies.</p>
+<p>The Aurelia team also has a <a href="https://github.com/aurelia/testing" target="_blank" rel="external">aurelia-testing</a> which I haven’t used. For this example I only used <a href="https://facebook.github.io/jest/" target="_blank" rel="external">Jest</a>.</p>
+<p>Full source code for this example <a href="https://github.com/schempy/aurelia-testing-jest" target="_blank" rel="external">aurelia-testing-jest</a></p>
+<p>Let’s start!</p>
+<h3 id="Directory-structure"><a href="#Directory-structure" class="headerlink" title="Directory structure"></a>Directory structure</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">|__src</div><div class="line">|  |__app.js</div><div class="line">|  |__app.html</div><div class="line">|  |__main.js</div><div class="line">|</div><div class="line">|__test</div><div class="line">|  |__jest-pretest.js</div><div class="line">|  |__unit</div><div class="line">|     |__app.spec.js</div><div class="line">|</div><div class="line">|__package.json</div></pre></td></tr></table></figure>
+<p>All tests are in <code>test/unit</code> directory and end in <code>.spec.js</code>. For this example I’ll be testing the <code>src/app.js</code> component.</p>
+<a id="more"></a>
+<h3 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h3><ol>
+<li>Add a <code>jest</code> key to <code>package.json</code>. This will be used for configuration.</li>
+<li>Modify <code>.babelrc</code> to use ES6 features.</li>
+<li>Create a setup file for Jest.</li>
+<li>Create a npm script that will run the tests.</li>
+</ol>
+<h4 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h4><p>Adding a <a href="https://facebook.github.io/jest/docs/configuration.html#content" target="_blank" rel="external">jest configuration</a> to the <code>package.json</code> file. If you want to use this method there must be a <code>jest</code> key in the JSON file.<br>If not you can <a href="https://facebook.github.io/jest/docs/cli.html#content" target="_blank" rel="external">set the configuration on the command line</a>.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">"jest": &#123;</div><div class="line">  "modulePaths": [</div><div class="line">    "&lt;rootDir&gt;/src",</div><div class="line">    "&lt;rootDir&gt;/node_modules"</div><div class="line">  ],</div><div class="line">  "moduleFileExtensions": [</div><div class="line">    "js",</div><div class="line">    "json"</div><div class="line">  ],</div><div class="line">  "transform": &#123;</div><div class="line">    "^.+\\.jsx?$": "babel7-jest"</div><div class="line">  &#125;,</div><div class="line">  "testRegex": "\\.spec\\.(ts|js)x?$",</div><div class="line">  "setupFiles": [</div><div class="line">    "&lt;rootDir&gt;/test/jest-pretest.js"</div><div class="line">  ],</div><div class="line">  "testEnvironment": "node",</div><div class="line">  "moduleNameMapper": &#123;</div><div class="line">    "aurelia-(.*)": "&lt;rootDir&gt;/node_modules/$1"</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h4><p>Modify <code>.babelrc</code> to use ES6 features within the test files.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">"env": &#123;</div><div class="line">  "test": &#123;</div><div class="line">    "presets": ["env"],</div><div class="line">    "plugins": [</div><div class="line">      "transform-class-properties",</div><div class="line">      "transform-decorators"</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h4><p>Create a setup file for Jest. This will allow me to use Aurelia in the tests. The setup file is located in <code>test/jest-pretest.js</code>. This file can be named anything you’d like. Configure Jest to use this setup file in the configuration under <code>setupFiles</code>, line 14 in Step 1.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">'aurelia-polyfills'</span>;</div><div class="line"><span class="keyword">import</span> &#123;Options&#125; <span class="keyword">from</span> <span class="string">'aurelia-loader-nodejs'</span>;</div><div class="line"><span class="keyword">import</span> &#123;globalize&#125; <span class="keyword">from</span> <span class="string">'aurelia-pal-nodejs'</span>;</div><div class="line"><span class="keyword">import</span> * <span class="keyword">as</span> path <span class="keyword">from</span> <span class="string">'path'</span>;</div><div class="line">Options.relativeToDir = path.join(__dirname, <span class="string">'unit'</span>);</div><div class="line">globalize();</div></pre></td></tr></table></figure></p>
+<h4 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h4><p>Adding a npm script that will run the tests. I added the <code>--verbose</code> option because I like feedback when running the tests.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">"scripts": &#123;</div><div class="line">  "test": "jest --verbose"</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Now the good stuff!</p>
+<h3 id="The-Aurelia-component"><a href="#The-Aurelia-component" class="headerlink" title="The Aurelia component"></a>The Aurelia component</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;inject&#125; <span class="keyword">from</span> <span class="string">'aurelia-framework'</span>;</div><div class="line"><span class="keyword">import</span> &#123;EventAggregator&#125; <span class="keyword">from</span> <span class="string">'aurelia-event-aggregator'</span>;</div><div class="line"></div><div class="line">@inject(EventAggregator)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">constructor</span>(eventAggregator) &#123;</div><div class="line">    <span class="keyword">this</span>.heading = <span class="string">'Testing Aurelia With Jest'</span>;</div><div class="line">    <span class="keyword">this</span>.ea = eventAggregator;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  fireEvent() &#123;</div><div class="line">    <span class="keyword">this</span>.ea.publish(<span class="string">'event-fired'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>The component sets a <code>heading</code> variable, on line 8, that will be binded to an html element and a <code>fireEvent</code> function, on line 12. I wanted to include a dependency to inject into this component so  I can demonstrate how to use mocks.</p>
+<h3 id="The-HTML-Template"><a href="#The-HTML-Template" class="headerlink" title="The HTML Template"></a>The HTML Template</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span>$&#123;heading&#125;<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">form</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span></span></div><div class="line">      <span class="attr">class</span>=<span class="string">"btn btn-default"</span> <span class="attr">click.delegate</span>=<span class="string">"fireEvent()"</span>&gt;</div><div class="line">    Fire Event</div><div class="line">    <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>The template has a placeholder for the binding <code>heading</code> defined in the component and a button that will fire off a <code>fireEvent</code> function also defined in the component.</p>
+<h3 id="The-Testing-script"><a href="#The-Testing-script" class="headerlink" title="The Testing script"></a>The Testing script</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;EventAggregator&#125; <span class="keyword">from</span> <span class="string">'aurelia-event-aggregator'</span>;</div><div class="line">jest.mock(<span class="string">'aurelia-event-aggregator'</span>, () =&gt; (&#123;</div><div class="line">  EventAggregator: &#123;</div><div class="line">    publish: jest.fn()</div><div class="line">  &#125;</div><div class="line">&#125;));</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123;App&#125; <span class="keyword">from</span> <span class="string">'../../src/app'</span>;</div><div class="line"></div><div class="line">describe(<span class="string">'App Component'</span>, () =&gt; &#123;</div><div class="line">  <span class="keyword">let</span> app;</div><div class="line"></div><div class="line">  beforeEach(() =&gt; &#123;</div><div class="line">    app = <span class="keyword">new</span> App(EventAggregator);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  test(<span class="string">'constructor is defined'</span>, () =&gt; &#123;</div><div class="line">    expect(app.constructor).toBeDefined();</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  test(<span class="string">'fire event'</span>, () =&gt; &#123;</div><div class="line">    app.fireEvent();</div><div class="line"></div><div class="line">    expect(EventAggregator.publish).toHaveBeenCalledTimes(<span class="number">1</span>);</div><div class="line">  &#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>There are two tests:</p>
+<ol>
+<li>Check if a constructor is defined.</li>
+<li>Make sure the <code>EventAggreator.publish</code> funtion has been called during the <code>fireEvent</code> function.</li>
+</ol>
+<p>Note there is a <code>beforeEach</code> function, on line 13, that will create a new component for each test that is run.</p>
+<p>The test to check if a constructor is defined is simple. No need for an explaination.</p>
+<p>The <code>EventAggreator.publish</code> test requires some explaination. Notice, on line 2, after I import the <code>EventAggregator</code> module I create a mock using the <code>jest.mock</code> syntax. This tells Jest to use the mock anytime <code>EventAggregator</code> is used. The function that I will mock is <code>publish</code>. The <code>jest.fn()</code> will keep track of all calls to the <code>publish</code> function is called along with arguments. You can add as many mock functions as you’d like.</p>
+<p>The documentation for <a href="https://facebook.github.io/jest/docs/manual-mocks.html#content" target="_blank" rel="external">manual mocks</a> recommends creating a <code>__mocks__</code> subdirectory adjacent to the module but I prefer to define the mocks within my test file.</p>
+<p>Anytime you want to check if a function was called or called with specific parameters that function needs to be a mock. This one got me. I was checking if a function was called but did not mock the iimplementation. Duh!?</p>
+<h3 id="Running-the-test"><a href="#Running-the-test" class="headerlink" title="Running the test."></a>Running the test.</h3><p>Running the tests by typing the following into the command line<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm test</div></pre></td></tr></table></figure></p>
+<p>Full source code for this example <a href="https://github.com/schempy/aurelia-testing-jest" target="_blank" rel="external">aurelia-testing-jest</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.schempy.com/2017/05/25/aurelia_testing_with_jest/" data-id="cj33ad1ll000012odj3s6uprv" class="article-share-link">Tweet This</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Autogenerate unit test boilerplate. Part 2.
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/08/default_export_value_babel_6x/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Default export value in Babel 6.x</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Schempy<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/script-min.js"></script>
+  </div>
+</body>
+</html>

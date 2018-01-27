@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
+  
+  <title>Angular2 With Typescript And Webpack | Recent Blog Posts By Brian Schemp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I’m just starting to get into angular2 with TypeScript. I decided to give the angular2 quickstart application a try. At first glance I wanted to use webpack instead of systemjs for module loading.
+To">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular2 With Typescript And Webpack">
+<meta property="og:url" content="http://www.schempy.com/2016/01/19/angular2_webpack_typescript/index.html">
+<meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:description" content="I’m just starting to get into angular2 with TypeScript. I decided to give the angular2 quickstart application a try. At first glance I wanted to use webpack instead of systemjs for module loading.
+To">
+<meta property="og:image" content="https://raw.githubusercontent.com/schempy/angular2-typescript-webpack/master/images/angular2-typescript-webpack-source-maps.png">
+<meta property="og:updated_time" content="2016-09-17T00:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular2 With Typescript And Webpack">
+<meta name="twitter:description" content="I’m just starting to get into angular2 with TypeScript. I decided to give the angular2 quickstart application a try. At first glance I wanted to use webpack instead of systemjs for module loading.
+To">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/schempy/angular2-typescript-webpack/master/images/angular2-typescript-webpack-source-maps.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59930748-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives/">Archives</a>
+        
+          <a class="main-nav-link" href="https://www.github.com/schempy">GitHub</a>
+        
+          <a class="main-nav-link" href="https://www.twitter.com/schempy">Twitter</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-angular2_webpack_typescript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/19/angular2_webpack_typescript/" class="article-date">
+  <time datetime="2016-01-19T00:00:00.000Z" itemprop="datePublished">Jan 19th 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular2 With Typescript And Webpack
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’m just starting to get into <a href="https://www.npmjs.com/package/angular2" target="_blank" rel="external">angular2</a> with <a href="https://www.npmjs.com/package/typescript" target="_blank" rel="external">TypeScript</a>. I decided to give the <a href="https://angular.io/docs/ts/latest/quickstart.html" target="_blank" rel="external">angular2 quickstart application</a> a try. At first glance I wanted to use <a href="https://www.npmjs.com/package/webpack" target="_blank" rel="external">webpack</a> instead of <a href="https://www.npmjs.com/package/systemjs" target="_blank" rel="external">systemjs</a> for module loading.</p>
+<p>To begin here is my package.json file:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"angular2-typescript-webpack"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"1.3.0"</span>,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"postinstall"</span>: <span class="string">"typings install"</span>,</div><div class="line">    <span class="attr">"build"</span>: <span class="string">"webpack"</span>,</div><div class="line">    <span class="attr">"start"</span>: <span class="string">"webpack-dev-server"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"@angular/common"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/compiler"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/core"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/forms"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/http"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/platform-browser"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/platform-browser-dynamic"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="attr">"@angular/router"</span>: <span class="string">"3.0.0"</span>,</div><div class="line">    <span class="attr">"reflect-metadata"</span>: <span class="string">"^0.1.3"</span>,</div><div class="line">    <span class="attr">"rxjs"</span>: <span class="string">"5.0.0-beta.12"</span>,</div><div class="line">    <span class="attr">"zone.js"</span>: <span class="string">"^0.6.23"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"ts-loader"</span>: <span class="string">"0.8.2"</span>,</div><div class="line">    <span class="attr">"typescript"</span>: <span class="string">"1.8.10"</span>,</div><div class="line">    <span class="attr">"typings"</span>: <span class="string">"1.3.0"</span>,</div><div class="line">    <span class="attr">"webpack"</span>: <span class="string">"1.13.0"</span>,</div><div class="line">    <span class="attr">"webpack-dev-server"</span>: <span class="string">"1.14.1"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>I have <a href="https://www.npmjs.com/package/typescript" target="_blank" rel="external">typescript</a> and <a href="https://www.npmjs.com/package/typings" target="_blank" rel="external">typings</a> installed globally <strong>npm install typescript typings -g</strong> but included them in the devDependencies section just in case some people don’t want to install those globally.</p>
+<p>You’ll need a file named typings.json to install a es6-shim</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"globalDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"es6-shim"</span>: <span class="string">"github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>You can now run <strong>typings install</strong></p>
+<p>I included <a href="https://www.npmjs.com/package/webpack" target="_blank" rel="external">webpack</a> and <a href="https://www.npmjs.com/package/webpack-dev-server" target="_blank" rel="external">webpack-dev-server</a>. There are two <a href="https://docs.npmjs.com/misc/scripts" target="_blank" rel="external">npm scripts</a>, build and start, that use webpack and webpack-dev-server respectively.</p>
+<a id="more"></a>
+<p> Webpack requires a configuration file named webpack.config.js. The <a href="https://webpack.github.io/docs/configuration.html" target="_blank" rel="external">webpack configuration details</a> contain an explaination of all the configuration options. Here is what I included:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">"webpack"</span>);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  entry: &#123;</div><div class="line">    <span class="string">"vendor"</span>: <span class="string">"./app/vendor"</span>,</div><div class="line">    <span class="string">"app"</span>: <span class="string">"./app/main"</span></div><div class="line">  &#125;,</div><div class="line">  output: &#123;</div><div class="line">    path: __dirname,</div><div class="line">    filename: <span class="string">"./dist/[name].bundle.js"</span></div><div class="line">  &#125;,</div><div class="line">  resolve: &#123;</div><div class="line">    extensions: [<span class="string">''</span>, <span class="string">'.js'</span>, <span class="string">'.ts'</span>]</div><div class="line">  &#125;,</div><div class="line">  devtool: <span class="string">'source-map'</span>,</div><div class="line">  <span class="built_in">module</span>: &#123;</div><div class="line">    loaders: [</div><div class="line">      &#123;</div><div class="line">        test: <span class="regexp">/\.ts/</span>,</div><div class="line">        loaders: [<span class="string">'ts-loader'</span>],</div><div class="line">        exclude: <span class="regexp">/node_modules/</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  plugins: [</div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(<span class="comment">/* chunkName= */</span><span class="string">"vendor"</span>, <span class="comment">/* filename= */</span><span class="string">"./dist/vendor.bundle.js"</span>)</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>I will be splitting <a href="https://webpack.github.io/docs/code-splitting.html#split-app-and-vendor-code" target="_blank" rel="external">vendor and app code</a> which will create two bundles. One bundle will contain vendor code like polyfills and other libraries like <a href="https://github.com/lodash/lodash" target="_blank" rel="external">lodash</a>. The other bundle will contain my application code. Lines 5-6 define the entry point for two bundles that will be created.</p>
+<p>Line 26 uses the CommonsChunkPlugin to remove all modules in the vendor bundle from the app bundle.</p>
+<p>Line 15 will create source maps. More on this later.</p>
+<p>Lines 18-22 will use a <a href="https://webpack.github.io/docs/loaders.html" target="_blank" rel="external">loader</a> for my typescript files. The loader will transform the typescript files to ES5 JavaScript. There is a configuration file, tsconfig.json, for the typescript complier that guides the compiler as it generates the JavaScript files.</p>
+<p>Here is the tsconfig.json file<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"compilerOptions"</span>: &#123;</div><div class="line">    <span class="string">"target"</span>: <span class="string">"ES5"</span>,</div><div class="line">    <span class="string">"module"</span>: <span class="string">"commonjs"</span>,</div><div class="line">    <span class="string">"moduleResolution"</span>: <span class="string">"node"</span>,</div><div class="line">    <span class="string">"sourceMap"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"emitDecoratorMetadata"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"experimentalDecorators"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"removeComments"</span>: <span class="literal">false</span>,</div><div class="line">    <span class="string">"noImplicitAny"</span>: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">"exclude"</span>: [</div><div class="line">    <span class="string">"node_modules"</span>,</div><div class="line">    <span class="string">"typings/main"</span>,</div><div class="line">    <span class="string">"typings/main.d.ts"</span></div><div class="line">  ],</div><div class="line">  <span class="string">"compileOnSave"</span>: <span class="literal">false</span>,</div><div class="line">  <span class="string">"buildOnSave"</span>: <span class="literal">false</span>,</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>The <a href="https://github.com/Microsoft/TypeScript/wiki/tsconfig.json" target="_blank" rel="external">TypeScript Wiki</a> contains all the details for the configuration file.</p>
+<p>One of the options you should note is on line 6 that will generate source maps. Ok here we go with the source maps again. One of the neat things with this setup is that <a href="http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/" target="_blank" rel="external">source maps</a> will be generated. They help when debugging JavaScript with chrome devtools.</p>
+<p>After running <strong>npm run build</strong> then <strong>npm run start</strong> goto <code>http://localhost:8080</code> in a browser (I use chrome). Once the page is loaded open devtools and click on the <strong>Sources</strong> tab. Drill down on the list item labeled <strong>webpack</strong> on the left-side. You’ll notice there are the original typescript files! Click on one and check for yourself. You can set breakpoints and start digging in! Here is what your screen should look like:</p>
+<p><img src="https://raw.githubusercontent.com/schempy/angular2-typescript-webpack/master/images/angular2-typescript-webpack-source-maps.png" alt="alt text"></p>
+<p>This is a good starting point for me. From here I can start developing an application.</p>
+<p>Full source code for this example <a href="https://github.com/schempy/angular2-typescript-webpack" target="_blank" rel="external">angular2-typescript-webpack</a></p>
+<p>Thanks to <a href="https://github.com/dachibro" target="_blank" rel="external">dachibro</a> and <a href="https://github.com/hermanfransen" target="_blank" rel="external">H-e-r-m</a> for their contributions to the github repository!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.schempy.com/2016/01/19/angular2_webpack_typescript/" data-id="cirk0bsbr000083mkknvxkho0" class="article-share-link">Tweet This</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/04/05/find_stored_procedure_dependencies/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Find Stored Procedure Dependencies
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/11/13/asp_net_dropdownlist_control_datasource/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Asp.net Dropdownlist Control Datasource Expression</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Schempy<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/script-min.js"></script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
+  
+  <title>Autogenerate unit test boilerplate. Part 2. | Recent Blog Posts By Brian Schemp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Part 1 deals with parsing a javascript file to get an AST, looking for FunctionDeclarations, MemberExpressions and generating a model. The model will be used to generate a new AST that will represent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autogenerate unit test boilerplate. Part 2.">
+<meta property="og:url" content="http://www.schempy.com/2017/11/07/autogenerate_unit_test_boilerplate_part_2/index.html">
+<meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:description" content="Part 1 deals with parsing a javascript file to get an AST, looking for FunctionDeclarations, MemberExpressions and generating a model. The model will be used to generate a new AST that will represent">
+<meta property="og:updated_time" content="2017-11-07T19:43:18.884Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Autogenerate unit test boilerplate. Part 2.">
+<meta name="twitter:description" content="Part 1 deals with parsing a javascript file to get an AST, looking for FunctionDeclarations, MemberExpressions and generating a model. The model will be used to generate a new AST that will represent">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59930748-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives/">Archives</a>
+        
+          <a class="main-nav-link" href="https://www.github.com/schempy">GitHub</a>
+        
+          <a class="main-nav-link" href="https://www.twitter.com/schempy">Twitter</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-autogenerate_unit_test_boilerplate_part_2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/" class="article-date">
+  <time datetime="2017-11-07T00:00:00.000Z" itemprop="datePublished">Nov 7th 2017</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Autogenerate unit test boilerplate. Part 2.
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://schempy.com/2017/11/07/autogenerate_unit_test_boilerplate_part_1/" target="_blank" rel="external">Part 1</a> deals with parsing a javascript file to get an AST, looking for <strong>FunctionDeclarations</strong>, <strong>MemberExpressions</strong> and generating a model. The model will be used to generate a new AST that will represent the boilerplate code for a unit test. This article will deal with generating the boilerplate unit test AST and code.</p>
+<p>The source code I want to generate a unit test will be the following:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> greeting = <span class="string">"Hello "</span>;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> greeting + name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = sayHello;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>The model that is generated from the source code will look like the following:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">functions: [</div><div class="line">    &#123;</div><div class="line">        name: <span class="string">"sayHello"</span>,</div><div class="line">        params: [ <span class="string">"name"</span> ],</div><div class="line">        mocks: [],</div><div class="line">        returns: <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">],</div><div class="line">moduleExports: [ <span class="string">"sayHello"</span> ]</div></pre></td></tr></table></figure>
+<p>I’ll be using two modules to create the unit test AST and code:</p>
+<ol>
+<li><a href="https://github.com/babel/babel/tree/master/packages/babel-types" target="_blank" rel="external">bable-types</a> used to create AST nodes.</li>
+<li><a href="https://github.com/babel/babel/tree/master/packages/babel-generator" target="_blank" rel="external">babel-generator</a> used to generate code from the AST.</li>
+</ol>
+<p>I want to create a test block for each function in the model. From the source code above I want the test to look like the following:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">describe(<span class="string">"Testing"</span>, () =&gt; &#123;</div><div class="line">    test(<span class="string">"testing sayHello"</span>, () =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> name = <span class="literal">null</span>;</div><div class="line">        <span class="keyword">const</span> result = sayHello(name);</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>Note line 3 there’s a variable for the function parameter <strong>name</strong>. I do this so the developer can assign values to each function parameter. Every function parameter will have a variable defined this way.</p>
+<h3 id="Iterating-over-functions-in-model"><a href="#Iterating-over-functions-in-model" class="headerlink" title="Iterating over functions in model"></a>Iterating over functions in model</h3><p>First I have to iterate over all the functions in the model. Then I can create a test block for each function. The code below will create an array of test blocks. A test block will be for every function in the model. I’m using the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce?v=a" target="_blank" rel="external">reduce</a> method to iterate over the functions. Inside the reduce method I will</p>
+<ol>
+<li>Create an array of function parameters.</li>
+<li>Create an array of variables There will be one variable for every function parameter.</li>
+<li>Create the function call.</li>
+<li>Create the test block.</li>
+</ol>
+<p>Once iterating is completed I’ll add the test block array to a description block.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> testBlockArray = model</div><div class="line">    .getFunctions()</div><div class="line">    .reduce((acc, functionDetails) &#123;</div><div class="line">        <span class="comment">// Create tests here...</span></div><div class="line">        <span class="comment">// 1. Create function parameters.</span></div><div class="line">        <span class="comment">// 2. Create a variable for every function paramter.</span></div><div class="line">        <span class="comment">// 3. Create function call.</span></div><div class="line">        <span class="comment">// 4. Create test block.</span></div><div class="line"></div><div class="line">        <span class="comment">// Add test to the accumulator</span></div><div class="line"></div><div class="line">        <span class="comment">// return the accumulator</span></div><div class="line">        <span class="keyword">return</span> acc;</div><div class="line">    &#125;, []);</div><div class="line"></div><div class="line"><span class="comment">// Add test block array to the descrition block...</span></div></pre></td></tr></table></figure></p>
+<h3 id="Creating-function-parameters"><a href="#Creating-function-parameters" class="headerlink" title="Creating function parameters"></a>Creating function parameters</h3><p>All function parameters will be defined as an <a href="https://github.com/babel/babel/tree/master/packages/babel-types#identifier" target="_blank" rel="external">Identifier</a>. Below I’m creating an array of function parameters that’s iterating over the params array from the model.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> functionParameters = functionDetails.params</div><div class="line">    .reduce((acc, param) =&gt; &#123;</div><div class="line">        acc.push(t.identifier(param));</div><div class="line"></div><div class="line">        <span class="keyword">return</span> acc;</div><div class="line">    &#125;, []);</div></pre></td></tr></table></figure>
+<h3 id="Creating-variables-for-every-function-parameter"><a href="#Creating-variables-for-every-function-parameter" class="headerlink" title="Creating variables for every function parameter"></a>Creating variables for every function parameter</h3><p>Every function parameter will have a variable defined within the test block. The variable will have the same name as the parameter and assigned a null value. This will also loop over the params array from the model. Below I’m creating an array of variables.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> variables = functionDetails.params</div><div class="line">    .reduce((acc, param) =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> variables = t.variableDeclaration(</div><div class="line">            <span class="string">"const"</span>,</div><div class="line">            [</div><div class="line">              t.variableDeclarator(</div><div class="line">                t.identifier(param),</div><div class="line">                t.nullLiteral()</div><div class="line">              )</div><div class="line">            ]</div><div class="line">          );</div><div class="line"></div><div class="line">          acc.push(variable);</div><div class="line"></div><div class="line">          <span class="keyword">return</span> acc;</div><div class="line">    &#125;, []);</div></pre></td></tr></table></figure></p>
+<h3 id="Creating-the-function-call"><a href="#Creating-the-function-call" class="headerlink" title="Creating the function call"></a>Creating the function call</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> functionName = functionDetails.name;</div><div class="line"><span class="keyword">const</span> functionCall = t.variableDeclaration(</div><div class="line">    <span class="string">"const"</span>,</div><div class="line">    [</div><div class="line">        t.variableDeclarator(</div><div class="line">            t.identifier(<span class="string">"result"</span>),</div><div class="line">            t.callExpression(</div><div class="line">                t.identifier(functionName),</div><div class="line">                functionParamters</div><div class="line">            )</div><div class="line">        )</div><div class="line">    ]</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>The function call is a <a href="https://github.com/babel/babel/tree/master/packages/babel-types#callexpression" target="_blank" rel="external">CallExpression</a> in AST terms. The call will contain the function name and parameters. The function also returns a value. I’ll create a <a href="https://github.com/babel/babel/tree/master/packages/babel-types#variabledeclaration" target="_blank" rel="external">VariableDeclaration</a>, named result, that holds the return value of the function call, line 6.</p>
+<p>Line 9 contains the <strong>functionParameters</strong> array the was created above.</p>
+<h3 id="Creating-a-test-block"><a href="#Creating-a-test-block" class="headerlink" title="Creating a test block"></a>Creating a test block</h3><p>Now I can create the test block. It’s an <a href="https://github.com/babel/babel/tree/master/packages/babel-types#expressionstatement" target="_blank" rel="external">ExpressionStatement</a> containing a <a href="https://github.com/babel/babel/tree/master/packages/babel-types#callexpression" target="_blank" rel="external">CallExpression</a> containing a <a href="https://github.com/babel/babel/tree/master/packages/babel-types#arrowfunctionexpression" target="_blank" rel="external">ArrowFunctionExpression</a>.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> testBlockStatement = [...variables, functionCall ];</div><div class="line"><span class="keyword">const</span> testBlockText = <span class="string">"Testing "</span> + functionDetails.name;</div><div class="line"></div><div class="line"><span class="keyword">const</span> testBlockAst = t.expressionStatement(</div><div class="line">    t.callExpression(</div><div class="line">        t.identifier(<span class="string">"test"</span>),</div><div class="line">        [</div><div class="line">            t.stringLiteral(testBlockText),</div><div class="line">            t.arrowFunctionExpression(</div><div class="line">                [],</div><div class="line">                t.blockStatement(testBlockStatement)</div><div class="line">            )</div><div class="line">        ]</div><div class="line">    )</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">// We are still in the reduce function here.</span></div><div class="line"><span class="comment">// Add the test block to the accumulator of</span></div><div class="line"><span class="comment">// the reduce method.</span></div></pre></td></tr></table></figure></p>
+<p>The ArrowFunctionExpression will have the variables and the function call. The array, <strong>testBlockStatement</strong>, line 1, is any array of the variables and the function call that wlll be used in the ArrowFunctionExpression in line 9.</p>
+<h3 id="Creating-a-describe-block"><a href="#Creating-a-describe-block" class="headerlink" title="Creating a describe block"></a>Creating a describe block</h3><p>I’ll wrap the all the test blocks within a describe block. The describe block is also a <a href="https://github.com/babel/babel/tree/master/packages/babel-types#expressionstatement" target="_blank" rel="external">ExpressionStatement</a> containing a <a href="https://github.com/babel/babel/tree/master/packages/babel-types#callexpression" target="_blank" rel="external">CallExpression</a> containing a <a href="https://github.com/babel/babel/tree/master/packages/babel-types#arrowfunctionexpression" target="_blank" rel="external">ArrowFunctionExpression</a>. The ArrowFunctionExpression will have the all the test blocks.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> describeBlock = t.expressionStatement(</div><div class="line">    t.callExpression(</div><div class="line">        t.identifier(<span class="string">"describe"</span>),</div><div class="line">        [</div><div class="line">            t.stringLiteral(<span class="string">"Some Description..."</span>),</div><div class="line">            t.arrowFunctionExpression(</div><div class="line">                [],</div><div class="line">                t.blockStatement(testBlockArray)</div><div class="line">            )</div><div class="line">        ]</div><div class="line">    )</div><div class="line">);</div></pre></td></tr></table></figure></p>
+<p>Line 8 refers to the <strong>testBlockArray</strong> created above.</p>
+<h3 id="Generate-the-unit-test-code"><a href="#Generate-the-unit-test-code" class="headerlink" title="Generate the unit test code"></a>Generate the unit test code</h3><p>Finally we can generate a unit test.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> babelGenerate = <span class="built_in">require</span>(<span class="string">"babel-generator"</span>).default;</div><div class="line"></div><div class="line"><span class="keyword">const</span> programNode = t.program([ describeBlock ], []);</div><div class="line"><span class="keyword">const</span> output = babelGenerate(programNode, &#123;&#125;);</div><div class="line"></div><div class="line"><span class="comment">// The unit test code!!!</span></div><div class="line"><span class="built_in">console</span>.log(output.code);</div></pre></td></tr></table></figure>
+<p>Line 3 creates a <a href="https://github.com/babel/babel/tree/master/packages/babel-types#program" target="_blank" rel="external">Program</a> AST node that contains the variable <strong>describeBlock</strong> from the code above. Line 4 uses the <a href="https://github.com/babel/babel/tree/master/packages/babel-generator" target="_blank" rel="external">babel-generator</a> module to generate the unit test code. I’m passing an empty object of <a href="https://github.com/babel/babel/tree/master/packages/babel-generator#options" target="_blank" rel="external">options</a> to babel-generator. The <strong>output</strong> variable will be an object having a property <strong>code</strong> which is the unit test code. I’m only ouputing the code to the console but you can save this to a file.</p>
+<p>Next I’ll explore FunctionDeclarations that contain a call to another module and mocking/spying that call.</p>
+<h3 id="Source-code"><a href="#Source-code" class="headerlink" title="Source code"></a>Source code</h3><p>Source code for this this example is at <a href="https://github.com/schempy/autogenerate-unit-test-boilerplate-files/tree/master/part_02" target="_blank" rel="external">github</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.schempy.com/2017/11/07/autogenerate_unit_test_boilerplate_part_2/" data-id="cj9p3acoc00019mod1t6ug7vt" class="article-share-link">Tweet This</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Autogenerate unit test boilerplate. Part 1.
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/25/aurelia_testing_with_jest/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Aurelia Testing With Jest</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Schempy<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/script-min.js"></script>
+  </div>
+</body>
+</html>

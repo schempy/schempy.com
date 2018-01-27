@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
+  
+  <title>React Flux and Routing For Seo | Recent Blog Posts By Brian Schemp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Single page web applications are awesome. Recently I used React/Flux to build a simple application to test if I can get SEO working without being a real pain. The application would display products ba">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Flux and Routing For Seo">
+<meta property="og:url" content="http://www.schempy.com/2015/02/16/reactjs_flux_and_routing_for_seo/index.html">
+<meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:description" content="Single page web applications are awesome. Recently I used React/Flux to build a simple application to test if I can get SEO working without being a real pain. The application would display products ba">
+<meta property="og:updated_time" content="2016-08-07T03:16:23.404Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React Flux and Routing For Seo">
+<meta name="twitter:description" content="Single page web applications are awesome. Recently I used React/Flux to build a simple application to test if I can get SEO working without being a real pain. The application would display products ba">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style-min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59930748-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives/">Archives</a>
+        
+          <a class="main-nav-link" href="https://www.github.com/schempy">GitHub</a>
+        
+          <a class="main-nav-link" href="https://www.twitter.com/schempy">Twitter</a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-reactjs_flux_and_routing_for_seo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/02/16/reactjs_flux_and_routing_for_seo/" class="article-date">
+  <time datetime="2015-02-16T00:00:00.000Z" itemprop="datePublished">Feb 16th 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React Flux and Routing For Seo
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Single page web applications are awesome. Recently I used React/Flux to build a simple application to test if I can get SEO working without being a real pain. The application would display products based on a category. The user would select a category from a drop-down. Once a category has been selected a list of products in that category would display.</p>
+<p>I wanted to have a client-side router. I chose <a href="https://github.com/rackt/react-router" target="_blank" rel="external">react-router</a>. Selecting a category would push a url to the browser history. The user would be able to refresh the browser with the new url and have the contents of the page be SEO friendly.</p>
+<h2 id="the-challenge"><a href="#the-challenge" class="headerlink" title="the challenge"></a>the challenge</h2><p>On the server-side I needed the following:</p>
+<ol>
+<li>Initialize the React application.</li>
+<li>Set the state for the React components.</li>
+<li>Render the React components to html.</li>
+<li>Return the page that will be SEO friendly. Passing the initial state of the components.</li>
+</ol>
+<p>On the client-side I needed the following:</p>
+<ol>
+<li>Initialize the React application.</li>
+<li>Set the state for the React components using the initial state passed from the server. </li>
+<li>Render the React components. If the components contain the same initial state from the server, React is smart enough to know not to re-render the components.</li>
+</ol>
+<p>The initial state passed from the server would be JSON stored in a javascript variable.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;script type="text/javascript"&gt;</div><div class="line">	window.App=&#123;"products:[&#123;"id": 1, "name":"Led Zeppelin"&#125;,&#123;"id": 2, "name":"Bob Marley"&#125;]&#125;;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>I used the <a href="https://github.com/yahoo/serialize-javascript" target="_blank" rel="external">serializer-javascript</a> module to create the JSON on the server.</p>
+<p>The client-side will use the JSON data to re-create the components! Now the components will contain the same state as they did on the server-side and have all their event handlers working.</p>
+<p>Check out the repo on github: <a href="https://github.com/schempy/react-flux-routing-seo" target="_blank" rel="external">react-flux-routing-seo</a></p>
+<h2 id="modules-used"><a href="#modules-used" class="headerlink" title="modules used"></a>modules used</h2><ul>
+<li><a href="https://github.com/facebook/react" target="_blank" rel="external">ReactJS</a></li>
+<li><a href="https://github.com/facebook/flux" target="_blank" rel="external">Flux</a></li>
+<li><a href="https://github.com/rackt/react-router" target="_blank" rel="external">react-router</a></li>
+<li><a href="https://github.com/jesusabdullah/node-ecstatic" target="_blank" rel="external">Ecstatic (serve static content)</a></li>
+<li><a href="https://github.com/mde/ejs" target="_blank" rel="external">EJS (templating)</a></li>
+<li><a href="https://github.com/yahoo/serialize-javascript" target="_blank" rel="external">serializer-javascript</a></li>
+<li><a href="https://github.com/visionmedia/superagent" target="_blank" rel="external">superagent</a></li>
+<li><a href="https://github.com/aaronblohowiak/routes.js" target="_blank" rel="external">routes</a></li>
+</ul>
+<h2 id="running-the-app"><a href="#running-the-app" class="headerlink" title="running the app"></a>running the app</h2><p>Install all the node modules</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install</div></pre></td></tr></table></figure>
+<p>Start the development server. This will use browserify to build the javascript<br>and watchify to re-build the javascript on any changes.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm run start-dev</div></pre></td></tr></table></figure>
+<p>To start the server without any javascript watching</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm start</div></pre></td></tr></table></figure>
+<p>Point your browser to <a href="http://localhost:5000" target="_blank" rel="external">http://localhost:5000</a></p>
+<p>Checkout the package.json file for the npm scripts.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.schempy.com/2015/02/16/reactjs_flux_and_routing_for_seo/" data-id="cirk0y7b50000j2mk5d2plyro" class="article-share-link">Tweet This</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/03/02/where_to_have_api_calls_react_flux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Where To Have API Calls In React Flux
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/aurelia_testing_with_jest/">Aurelia Testing With Jest</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Schempy<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/script-min.js"></script>
+  </div>
+</body>
+</html>
