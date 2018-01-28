@@ -58,10 +58,10 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
-    <article id="post-autogenerate_unit_test_boilerplate_part_1" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-generate_unit_test_boilerplate_with_platelunch" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/" class="article-date">
-  <time datetime="2017-11-07T00:00:00.000Z" itemprop="datePublished">Nov 7th 2017</time>
+    <a href="/2018/01/28/generate_unit_test_boilerplate_with_platelunch/" class="article-date">
+  <time datetime="2018-01-28T00:00:00.000Z" itemprop="datePublished">Jan 28th 2018</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+      <a class="article-title" href="/2018/01/28/generate_unit_test_boilerplate_with_platelunch/">Generate unit test boilerplate with platelunch</a>
     </h1>
   
 
@@ -80,20 +80,15 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Most javascript projects I work on don’t have any unit tests. I only started adding unit tests to my workflow in the past year but have found them extremely useful. Adding unit tests to an existing project can be a pain. Especially some of the boilerplate code for each unit test. I wanted a tool that would perform four tasks:</p>
-<ol>
-<li>Parse the javascript source code using <a href="https://github.com/babel/babylon">babylon</a> to create an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> or AST. Use <a href="http://astexplorer.net">AST Explorer</a> for a nice visual of what an AST looks like.</li>
-<li>Traverse the AST, using <a href="https://github.com/babel/babel/tree/master/packages/babel-traverse">babel-traverse</a>, and look for functions that would require a test.</li>
-<li>Create a model that stores information on each function that will be tested. This information would include the function name, parameters, any calls to other functions and if it returns a value.</li>
-<li>Use the model to genreate a new AST that would be the unit test. I’ll be using <a href="https://github.com/babel/babel/tree/master/packages/babel-generator">babel-generator</a>.</li>
-</ol>
-<p>I only wanted to genreate most of the boilerplate code that is needed for a unit test. Things like importing or requiring modules, setting up any mocks, and creating describe/test blocks for any functions.</p>
-<p>The test won’t include any expectations. Stuff like this <strong>expect(true).toBe(true)</strong>. I’ll leave that for the developer. It can get challenging to understand the purpose of a function by analyizing the AST. I also didn’t want this tool to remove the developer from writing a unit test.</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Read More</a>
-          </p>
-        
+        <p><a href="https://www.npmjs.com/package/platelunch" target="_blank" rel="external">Platelunch</a> is a tool that will generate unit tests based on source files.<br>I created it because a lot of projects have zero unit tests and this is a quick way to genreate the boilerplate unit<br>test code.</p>
+<p>Currently <a href="https://facebook.github.io/jest/" target="_blank" rel="external">jest</a> is the only testing framework that is supported. More to come!</p>
+<h3 id="CLI"><a href="#CLI" class="headerlink" title="CLI"></a>CLI</h3><p>Pass in the directory where the source files are located and unit test files will be generated for every ‘.js’ file that’s<br>found.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">platelunch --test-framework jest <span class="string">"src/**/*.js"</span></div></pre></td></tr></table></figure>
+<p> I’m passing a glob in the example above but you can have it generate only one unit test file.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">platelunch --test-framework jest <span class="string">"src/some-file.js"</span></div></pre></td></tr></table></figure>
+<p>A directory __tests__ will be created at the root of the project that contain all the unit tests. You’ll have to modify<br>the unit test files to include any mocking. Only one test per function or class method is created.</p>
+<p>Full source code is available on <a href="https://github.com/schempy/platelunch" target="_blank" rel="external">github</a>.</p>
+
       
     </div>
     <footer class="article-footer">
@@ -132,6 +127,53 @@ ga('send', 'pageview');
         
           <p class="article-more-link">
             <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
+    <article id="post-autogenerate_unit_test_boilerplate_part_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/" class="article-date">
+  <time datetime="2017-11-07T00:00:00.000Z" itemprop="datePublished">Nov 7th 2017</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Most javascript projects I work on don’t have any unit tests. I only started adding unit tests to my workflow in the past year but have found them extremely useful. Adding unit tests to an existing project can be a pain. Especially some of the boilerplate code for each unit test. I wanted a tool that would perform four tasks:</p>
+<ol>
+<li>Parse the javascript source code using <a href="https://github.com/babel/babylon">babylon</a> to create an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> or AST. Use <a href="http://astexplorer.net">AST Explorer</a> for a nice visual of what an AST looks like.</li>
+<li>Traverse the AST, using <a href="https://github.com/babel/babel/tree/master/packages/babel-traverse">babel-traverse</a>, and look for functions that would require a test.</li>
+<li>Create a model that stores information on each function that will be tested. This information would include the function name, parameters, any calls to other functions and if it returns a value.</li>
+<li>Use the model to genreate a new AST that would be the unit test. I’ll be using <a href="https://github.com/babel/babel/tree/master/packages/babel-generator">babel-generator</a>.</li>
+</ol>
+<p>I only wanted to genreate most of the boilerplate code that is needed for a unit test. Things like importing or requiring modules, setting up any mocks, and creating describe/test blocks for any functions.</p>
+<p>The test won’t include any expectations. Stuff like this <strong>expect(true).toBe(true)</strong>. I’ll leave that for the developer. It can get challenging to understand the purpose of a function by analyizing the AST. I also didn’t want this tool to remove the developer from writing a unit test.</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Read More</a>
           </p>
         
       
@@ -231,43 +273,6 @@ ga('send', 'pageview');
 </article>
 
   
-    <article id="post-find_stored_procedure_dependencies" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/04/05/find_stored_procedure_dependencies/" class="article-date">
-  <time datetime="2016-04-05T00:00:00.000Z" itemprop="datePublished">Apr 5th 2016</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Recently working in Microsoft SQL Server I needed to find all the dependencires for a specific stored procedure. I ended up with the following:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> MY_DB</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> ROUTINE_NAME</div><div class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.ROUTINES</div><div class="line"><span class="keyword">WHERE</span> ROUTINE_DEFINITION <span class="keyword">LIKE</span> <span class="string">'%myStoredProcedure%'</span></div><div class="line"><span class="keyword">AND</span> ROUTINE_TYPE=<span class="string">'PROCEDURE'</span></div></pre></td></tr></table></figure>
-<p>This query looks through all the stored procedure definitions, in  the  <strong>MY_DB</strong> database, for the words <code>myStoredProcedure</code>. The results will display all the stored procedures including the <strong>myStoredProcedure</strong>.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -287,7 +292,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -299,11 +304,15 @@ ga('send', 'pageview');
       <ul>
         
           <li>
-            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+            <a href="/2018/01/28/generate_unit_test_boilerplate_with_platelunch/">Generate unit test boilerplate with platelunch</a>
           </li>
         
           <li>
             <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
           </li>
         
           <li>
@@ -312,10 +321,6 @@ ga('send', 'pageview');
         
           <li>
             <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
-          </li>
-        
-          <li>
-            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
           </li>
         
       </ul>
@@ -330,7 +335,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 Schempy<br>
+      &copy; 2018 Schempy<br>
     </div>
   </div>
 </footer>

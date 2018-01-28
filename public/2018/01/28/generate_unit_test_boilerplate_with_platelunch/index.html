@@ -4,14 +4,18 @@
   <meta charset="utf-8">
   <meta name="google-site-verification" content="0f8jwWWg0SVBbRsXYkxmK1CKxgrnmm1VQ-MxRA84rcQ" />
   
-  <title>Archives | Recent Blog Posts By Brian Schemp</title>
+  <title>Generate unit test boilerplate with platelunch | Recent Blog Posts By Brian Schemp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Recent Blog Posts By Brian Schemp">
-<meta property="og:url" content="http://www.schempy.com/archives/page/3/index.html">
+  <meta name="description" content="Platelunch is a tool that will generate unit tests based on source files.I created it because a lot of projects have zero unit tests and this is a quick way to genreate the boilerplate unittest code.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Generate unit test boilerplate with platelunch">
+<meta property="og:url" content="http://www.schempy.com/2018/01/28/generate_unit_test_boilerplate_with_platelunch/index.html">
 <meta property="og:site_name" content="Recent Blog Posts By Brian Schemp">
+<meta property="og:description" content="Platelunch is a tool that will generate unit tests based on source files.I created it because a lot of projects have zero unit tests and this is a quick way to genreate the boilerplate unittest code.">
+<meta property="og:updated_time" content="2018-01-28T19:35:54.407Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Recent Blog Posts By Brian Schemp">
+<meta name="twitter:title" content="Generate unit test boilerplate with platelunch">
+<meta name="twitter:description" content="Platelunch is a tool that will generate unit tests based on source files.I created it because a lot of projects have zero unit tests and this is a quick way to genreate the boilerplate unittest code.">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,115 +60,60 @@ ga('send', 'pageview');
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/08/25/docker_nginx_nodejs/" class="archive-article-date">
-  <time datetime="2015-08-25T00:00:00.000Z" itemprop="datePublished">Aug 25</time>
+        <section id="main"><article id="post-generate_unit_test_boilerplate_with_platelunch" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/28/generate_unit_test_boilerplate_with_platelunch/" class="article-date">
+  <time datetime="2018-01-28T00:00:00.000Z" itemprop="datePublished">Jan 28th 2018</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/25/docker_nginx_nodejs/">Nginx and Node.js with Docker</a>
+    <h1 class="article-title" itemprop="name">
+      Generate unit test boilerplate with platelunch
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/06/04/react_with_react_engine/" class="archive-article-date">
-  <time datetime="2015-06-04T00:00:00.000Z" itemprop="datePublished">Jun 4</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/04/react_with_react_engine/">React With react-engine</a>
-    </h1>
-  
+        <p><a href="https://www.npmjs.com/package/platelunch" target="_blank" rel="external">Platelunch</a> is a tool that will generate unit tests based on source files.<br>I created it because a lot of projects have zero unit tests and this is a quick way to genreate the boilerplate unit<br>test code.</p>
+<p>Currently <a href="https://facebook.github.io/jest/" target="_blank" rel="external">jest</a> is the only testing framework that is supported. More to come!</p>
+<h3 id="CLI"><a href="#CLI" class="headerlink" title="CLI"></a>CLI</h3><p>Pass in the directory where the source files are located and unit test files will be generated for every ‘.js’ file that’s<br>found.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">platelunch --test-framework jest <span class="string">"src/**/*.js"</span></div></pre></td></tr></table></figure>
+<p> I’m passing a glob in the example above but you can have it generate only one unit test file.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">platelunch --test-framework jest <span class="string">"src/some-file.js"</span></div></pre></td></tr></table></figure>
+<p>A directory __tests__ will be created at the root of the project that contain all the unit tests. You’ll have to modify<br>the unit test files to include any mocking. Only one test per function or class method is created.</p>
+<p>Full source code is available on <a href="https://github.com/schempy/platelunch" target="_blank" rel="external">github</a>.</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/05/20/source_maps_with_nodejs/" class="archive-article-date">
-  <time datetime="2015-05-20T00:00:00.000Z" itemprop="datePublished">May 20</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/05/20/source_maps_with_nodejs/">Source Maps With Node.js</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/" class="archive-article-date">
-  <time datetime="2015-04-03T00:00:00.000Z" itemprop="datePublished">Apr 3</time>
-</a>
+    </div>
+    <footer class="article-footer">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/03/responsive_layout_with_stylus_jeet_and_rupture/">Responsive Layouts With Stylus Jeet And Rupture</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/03/24/es6-generator-async/" class="archive-article-date">
-  <time datetime="2015-03-24T00:00:00.000Z" itemprop="datePublished">Mar 24</time>
-</a>
+        <a data-url="http://www.schempy.com/2018/01/28/generate_unit_test_boilerplate_with_platelunch/" data-id="cjcz76lsr0000l2odm0u2epup" class="article-share-link">Tweet This</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/03/24/es6-generator-async/">Async Tasks With ES6 Generators</a>
-    </h1>
-  
-
-    </header>
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Autogenerate unit test boilerplate. Part 2.</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 </section>
         
           <aside id="sidebar">

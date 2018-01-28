@@ -58,6 +58,47 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-nodejs_stream_image_upload" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/03/11/nodejs_stream_image_upload/" class="article-date">
+  <time datetime="2015-03-11T00:00:00.000Z" itemprop="datePublished">Mar 11th 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/11/nodejs_stream_image_upload/">Streaming File Uploads With Node.js</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’ve been experimenting with Node.js to build a http server for handling POST requests. Particularly for uploading files. I would send a multipart-form/data POST request containing one or more files. The route handler would parse and stream any file to a destination. That destination could be a directory on the server or a storage service like Amazon S3.</p>
+<p>I used <a href="https://www.npmjs.com/package/routes" target="_blank" rel="external">routes</a> for handling routing and <a href="https://www.npmjs.com/package/busboy" target="_blank" rel="external">busboy</a> for parsing HTML form data. Busyboy is a perfect module for this application. It emits a <strong>file</strong> event for incoming files and a <strong>field</strong> event for each non-file field. If a file is found Busboy will emit a <strong>data</strong> event when streaming and an <strong>end</strong> event when the streaming is complete.</p>
+<p> Here’s an example of the http server:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"><span class="keyword">var</span> router = <span class="built_in">require</span>(<span class="string">'routes'</span>)();</div><div class="line"><span class="keyword">var</span> Busboy = <span class="built_in">require</span>(<span class="string">'busboy'</span>);</div><div class="line"><span class="keyword">var</span> port = <span class="number">5000</span>;</div><div class="line"></div><div class="line"><span class="comment">// Define our route for uploading files</span></div><div class="line">router.addRoute(<span class="string">'/images'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, params</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (req.method === <span class="string">'POST'</span>) &#123;</div><div class="line">	</div><div class="line">		<span class="comment">// Create an Busyboy instance passing the HTTP Request headers.</span></div><div class="line">		<span class="keyword">var</span> busboy = <span class="keyword">new</span> Busboy(&#123; headers: req.headers &#125;);</div><div class="line">		</div><div class="line">		<span class="comment">// Listen for event when Busboy finds a file to stream.</span></div><div class="line">		busboy.on(<span class="string">'file'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">fieldname, file, filename, encoding, mimetype</span>) </span>&#123;</div><div class="line">		</div><div class="line">			<span class="comment">// We are streaming! Handle chunks</span></div><div class="line">			file.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">				<span class="comment">// Here we can act on the data chunks streamed.</span></div><div class="line">			&#125;);</div><div class="line">			</div><div class="line">			<span class="comment">// Completed streaming the file.</span></div><div class="line">			file.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">'Finished with '</span> + fieldname);</div><div class="line">			&#125;);</div><div class="line">		&#125;);</div><div class="line">		</div><div class="line">		<span class="comment">// Listen for event when Busboy finds a non-file field.</span></div><div class="line">		busboy.on(<span class="string">'field'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">fieldname, val</span>) </span>&#123;</div><div class="line">			<span class="comment">// Do something with non-file field.</span></div><div class="line">		&#125;);</div><div class="line">		</div><div class="line">		<span class="comment">// Listen for event when Busboy is finished parsing the form.</span></div><div class="line">		busboy.on(<span class="string">'finish'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">			res.statusCode = <span class="number">200</span>;</div><div class="line">			res.end();</div><div class="line">		&#125;);</div><div class="line">		</div><div class="line">		<span class="comment">// Pipe the HTTP Request into Busboy.</span></div><div class="line">		req.pipe(busboy);</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">// Check if the HTTP Request URL matches on of our routes.</span></div><div class="line">	<span class="keyword">var</span> match = router.match(req.url);</div><div class="line">	</div><div class="line">	<span class="comment">// We have a match!</span></div><div class="line">	<span class="keyword">if</span> (match) match.fn(req, res, match.params);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">server.listen(port, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">'Listening on port '</span> + port);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>This was a fun experiment. Handling multipart/form-data was pretty easy and the ability to stream file uploads is awesome!</p>
+<p>I created a gist for this example <a href="https://gist.github.com/schempy/0fe3abab3d834c94b3be" target="_blank" rel="external">stream-file-uploads-nodejs.js</a>.</p>
+<p>Questions? Comments? Tweet me <a href="https://www.twitter.com/schempy" target="_blank" rel="external">@schempy</a> or email <a href="mailto:schempysays@gmail.com" target="_blank" rel="external">schempysays@gmail.com</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+  
     <article id="post-where_to_have_api_calls_react_flux" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/03/02/where_to_have_api_calls_react_flux/" class="article-date">
@@ -179,7 +220,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -191,11 +232,15 @@ ga('send', 'pageview');
       <ul>
         
           <li>
-            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
+            <a href="/2018/01/28/generate_unit_test_boilerplate_with_platelunch/">Generate unit test boilerplate with platelunch</a>
           </li>
         
           <li>
             <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_2/">Autogenerate unit test boilerplate. Part 2.</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/07/autogenerate_unit_test_boilerplate_part_1/">Autogenerate unit test boilerplate. Part 1.</a>
           </li>
         
           <li>
@@ -204,10 +249,6 @@ ga('send', 'pageview');
         
           <li>
             <a href="/2016/04/08/default_export_value_babel_6x/">Default export value in Babel 6.x</a>
-          </li>
-        
-          <li>
-            <a href="/2016/04/05/find_stored_procedure_dependencies/">Find Stored Procedure Dependencies</a>
           </li>
         
       </ul>
@@ -222,7 +263,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 Schempy<br>
+      &copy; 2018 Schempy<br>
     </div>
   </div>
 </footer>
